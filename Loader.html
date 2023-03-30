@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<body style="background-color:burlywood;">
+  <meta charset="UTF-8">
+  <title>File Saver</title>
+  <style>
+    /* CSS code goes here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #file-input {
+      margin: 20px 0;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .file-item img {
+      max-width: 100px;
+      height: auto;
+      margin-right: 10px;
+    }
+    .file-item button {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HTML code goes here -->
+  <h1>Games Available for Play, just download</h1>
+  <div>
+    <input type="file" id="file-input">
+    <button id="save-button">Save File</button>
+  </div>
+  <div id="file-list"></div>
+  
+  <script>
+    // JavaScript code goes here
+    const fileInput = document.querySelector('#file-input');
+    const saveButton = document.querySelector('#save-button');
+    const fileList = document.querySelector('#file-list');
+    
+    function saveFileToLocalStorage(name, dataUrl) {
+      const files = JSON.parse(localStorage.getItem('files') || '[]');
+      files.push({ name, dataUrl });
+      localStorage.setItem('files', JSON.stringify(files));
+    }
+    
+    function deleteFileFromLocalStorage(index) {
+      const files = JSON.parse(localStorage.getItem('files') || '[]');
+      files.splice(index, 1);
+      localStorage.setItem('files', JSON.stringify(files));
+    }
+    
+    function renderFileList() {
+      fileList.innerHTML = '';
+      const files = JSON.parse(localStorage.getItem('files') || '[]');
+      files.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.classList.add('file-item');
+        const img = document.createElement('img');
+        img.src = file.dataUrl;
+        const name = document.createElement('span');
+        name.textContent = file.name;
+        const selectButton = document.createElement('button');
+        selectButton.textContent = 'Select';
+        selectButton.addEventListener('click', function() {
+          // do something with the selected file
+          console.log('Selected file:', file);
+        });
+        const downloadButton = document.createElement('a');
+        downloadButton.textContent = 'Download';
+        downloadButton.setAttribute('download', file.name);
+        downloadButton.setAttribute('href', file.dataUrl);
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', function() {
+          deleteFileFromLocalStorage(index);
+          renderFileList();
+        });
+        fileItem.appendChild(img);
+        fileItem.appendChild(name);
+        fileItem.appendChild(selectButton);
+        fileItem.appendChild(downloadButton);
+        fileItem.appendChild(deleteButton);
+        fileList.appendChild(fileItem);
+      });
+    }
+    
+    saveButton.addEventListener('click', function() {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.addEventListener('load', function() {
+        const name = file.name;
+        const dataUrl = reader.result;
+        saveFileToLocalStorage(name, dataUrl);
+        renderFileList();
+      });
+      reader.readAsDataURL(file);
+    });
+    
+    renderFileList();
+  </script>
+</body>
+<a href="javatari.html"><button style="color: rgb(0, 51, 25);">Go Back to Atari Game Sysytem</button></a>
+
+</html>
+
+
