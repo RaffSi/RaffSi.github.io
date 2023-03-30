@@ -2,116 +2,241 @@
 <html>
 <head>
 <body style="background-color:burlywood;">
-  <meta charset="UTF-8">
-  <title>File Saver</title>
-  <style>
-    /* CSS code goes here */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    #file-input {
-      margin: 20px 0;
-    }
-    .file-item {
-      display: flex;
-      align-items: center;
-      margin: 10px 0;
-    }
-    .file-item img {
-      max-width: 100px;
-      height: auto;
-      margin-right: 10px;
-    }
-    .file-item button {
-      margin-left: 10px;
-    }
-  </style>
+	<title>Atari Games Download Links</title>
+	<style>
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		#header {
+			background-color: #333;
+			color: #fff;
+			padding: 20px;
+			text-align: center;
+		}
+
+		h1 {
+			margin: 0;
+			font-size: 3em;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+
+		#download-links {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			padding: 20px;
+		}
+
+		.download-link {
+			margin: 10px;
+			padding: 10px;
+			border: 1px solid black;
+			border-radius: 5px;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 200px;
+			height: 150px;
+			position: relative;
+		}
+
+		.download-link a {
+			color: black;
+			text-decoration: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.download-link:hover {
+			background-color: green;
+		}
+
+		.download-link img {
+			height: 80px;
+			margin-bottom: 10px;
+		}
+
+		.download-link span {
+			font-size: 1.2em;
+			font-weight: bold;
+			text-align: center;
+			overflow-wrap: break-word;
+			word-wrap: break-word;
+			hyphens: auto;
+		}
+	</style>
 </head>
 <body>
-  <!-- HTML code goes here -->
-  <h1>Games Available for Play, just download</h1>
-  <div>
-    <input type="file" id="file-input">
-    <button id="save-button">Save File</button>
-  </div>
-  <div id="file-list"></div>
-  
-  <script>
-    // JavaScript code goes here
-    const fileInput = document.querySelector('#file-input');
-    const saveButton = document.querySelector('#save-button');
-    const fileList = document.querySelector('#file-list');
-    
-    function saveFileToLocalStorage(name, dataUrl) {
-      const files = JSON.parse(localStorage.getItem('files') || '[]');
-      files.push({ name, dataUrl });
-      localStorage.setItem('files', JSON.stringify(files));
-    }
-    
-    function deleteFileFromLocalStorage(index) {
-      const files = JSON.parse(localStorage.getItem('files') || '[]');
-      files.splice(index, 1);
-      localStorage.setItem('files', JSON.stringify(files));
-    }
-    
-    function renderFileList() {
-      fileList.innerHTML = '';
-      const files = JSON.parse(localStorage.getItem('files') || '[]');
-      files.forEach((file, index) => {
-        const fileItem = document.createElement('div');
-        fileItem.classList.add('file-item');
-        const img = document.createElement('img');
-        img.src = file.dataUrl;
-        const name = document.createElement('span');
-        name.textContent = file.name;
-        const selectButton = document.createElement('button');
-        selectButton.textContent = 'Select';
-        selectButton.addEventListener('click', function() {
-          // do something with the selected file
-          console.log('Selected file:', file);
-        });
-        const downloadButton = document.createElement('a');
-        downloadButton.textContent = 'Download';
-        downloadButton.setAttribute('download', file.name);
-        downloadButton.setAttribute('href', file.dataUrl);
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', function() {
-          deleteFileFromLocalStorage(index);
-          renderFileList();
-        });
-        fileItem.appendChild(img);
-        fileItem.appendChild(name);
-        fileItem.appendChild(selectButton);
-        fileItem.appendChild(downloadButton);
-        fileItem.appendChild(deleteButton);
-        fileList.appendChild(fileItem);
-      });
-    }
-    
-    saveButton.addEventListener('click', function() {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-      reader.addEventListener('load', function() {
-        const name = file.name;
-        const dataUrl = reader.result;
-        saveFileToLocalStorage(name, dataUrl);
-        renderFileList();
-      });
-      reader.readAsDataURL(file);
-    });
-    
-    renderFileList();
-  </script>
+	<div id="header">
+		<h1>Atari Games Downloads</h1>
+	</div>
+	<div id="download-links">
+		<div class="download-link">
+			<img src="gicon\ast.jpg" alt="Icon 1">
+			<span>Asteroids</span>
+			<a href="https://drive.google.com/file/d/11SoTloi8E9g3scbiuH79cbYIpTC5EbV5/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\ber.jpg" alt="Berzerk">
+			<span>Berzerk</span>
+			<a href="https://drive.google.com/file/d/1UdoMI1TG38-Ufq_IF1U6Rk7acM8ESfkP/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\bur.jpg" alt="Icon 3">
+			<span>BurgerTime</span>
+			<a href="https://drive.google.com/file/d/1E7DEXiT28-D7vQu5R_A_PgjYD-BuAKWk/view?usp=share_link" download></a>
+		</div>
+		<div id="download-links">
+		<div class="download-link">
+			<img src="gicon\chop.jpg" alt="Icon 4">
+			<span>Chopper Command1</span>
+			<a href="https://drive.google.com/file/d/19J3avRyTeHBCaMHv1oeniJ0MSPbvdOW8/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\cir.jpg" alt="Icon 5">
+			<span>Circus Atari</span>
+			<a href="https://drive.google.com/file/d/1rCROK2YVkAJIZxWw1ieTG5y3tjjLsA9N/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\com.png" alt="Icon 6">
+			<span>Combat</span>
+			<a href="https://drive.google.com/file/d/1KMcgUWrMZ8bLPlZWeGk0rhuvI0MtyCAp/view?usp=share_link" download></a>
+		</div>
+		<div id="download-links">
+		<div class="download-link">
+			<img src="gicon\def.jpeg" alt="Icon 7">
+			<span>Defender</span>
+			<a href="https://drive.google.com/file/d/1bycXiYaTlLpUFDZUwtmTXQga5_0kLWEW/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\dig.png" alt="Icon 8">
+			<span>DigDug</span>
+			<a href="https://drive.google.com/file/d/1GlgdTWjWgFi_X3AoQyrkpib98cRJjDcW/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\don.jpg" alt="Icon 9">
+			<span>Donky Kong</span>
+			<a href="https://drive.google.com/file/d/1Ni-0zlM4T45e7Z_WHVrpPlMBDj5lJRRP/view?usp=share_link" download></a>
+		</div>
+		<div id="download-links">
+		<div class="download-link">
+			<img src="gicon\dra.jpg" alt="Icon 10">
+			<span>Dragonfire</span>
+			<a href="https://drive.google.com/file/d/1RuDqzp3ZMkw6fsyidZ8UIsQ-3iEoFX7c/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\et.jpg" alt="Icon 11">
+			<span>E.T.</span>
+			<a href="https://drive.google.com/file/d/1AldHkaS33kMrM2b5N8RMdhpWmtOULhq2/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\fro.jpg" alt="Icon 12">
+			<span>Frogger</span>
+			<a href="https://drive.google.com/file/d/1o_yD7wgV6BFqIuqEvZPbpfCYTUO-KstJ/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\gal.jpg" alt="Icon 11">
+			<span>Galaxian</span>
+			<a href="https://drive.google.com/file/d/1zCreREE9GXqzpiAo30jsDSaW6-2aMcN9/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\hau.jpg" alt="Icon 12">
+			<span>Haunted House</span>
+			<a href="https://drive.google.com/file/d/18_kIoHEnytZfGv218byQyfQ_nbhlvhoJ/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\jou.jpg" alt="Icon 11">
+			<span>Joust</span>
+			<a href="https://drive.google.com/file/d/1nsg8VkYOs8vszV1J2EvnaVi5mFfYhSu8/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\jug.jpg" alt="Icon 12">
+			<span>Jungle Hunt</span>
+			<a href="https://drive.google.com/file/d/1pXaj8A5C15HoapUFfOkhVhQPTEUIQECi/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\mar.jpg" alt="Icon 11">
+			<span>Mario Bros.</span>
+			<a href="https://drive.google.com/file/d/18KOTc5LSbroOGs5LpPs1QOtn7g5iq86-/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\mis.jpg" alt="Icon 12">
+			<span>Missle Command</span>
+			<a href="https://drive.google.com/file/d/1svvZYl7UPMjy8U6wtElRUlURKS2fOAxJ/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\mou.jpg" alt="Icon 11">
+			<span>Mouse Trap</span>
+			<a href="https://drive.google.com/file/d/14LFsi3U2UA4MtCFByC75wK73ze4iR-wI/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\msp.jpg" alt="Icon 12">
+			<span>Ms Pacman</span>
+			<a href="https://drive.google.com/file/d/1Lb2UyrJSi-Vjgk1UarKOgI2Ol5g-TToS/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\pac.jpg" alt="Icon 11">
+			<span>Pacman</span>
+			<a href="https://drive.google.com/file/d/1_yqMUDyOc1w1bZZdBimRUL72VQq6wlEC/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\pit.png" alt="Icon 12">
+			<span>Pitfall</span>
+			<a href="https://drive.google.com/file/d/1u-_0LamNZ7--HgnOWn7WDtz0LEGQokL0/view?usp=share_link" download></a>
+</div>
+		<div class="download-link">		
+			<img src="gicon\qbe.jpg" alt="Icon 11">
+					<span>Qbert</span>
+			<a href="https://drive.google.com/file/d/1BqnVLR6hV6GlYWicA-gz083hmKTPBUfs/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\ram.jpg" alt="Icon 12">
+			<span>Rampage</span>
+			<a href="https://drive.google.com/file/d/1Sv_tMOt1inglXZR_eFVHoo5z-gZkuC6c/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\riv.jpg" alt="Icon 11">
+			<span>River Raid</span>
+			<a href="https://drive.google.com/file/d/1-Sl9cr3KDSf80Q_IPMzgLuZgrjG_vhMa/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\dea.jpg" alt="Icon 12">
+			<span>Deadly Duck</span>
+			<a href="https://drive.google.com/file/d/1jGtM9UQ4ghaT_7T4QAxhu2Dsw8-KQ1nw/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\rob.jpg" alt="Icon 11">
+			<span>Robot Tank</span>
+			<a href="https://drive.google.com/file/d/1Bpa7UcRQTTH4xix1-lSRzAR5uHGpl4c4/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\spa.jpg" alt="Icon 12">
+			<span>Space Cavern</span>
+			<a href="https://drive.google.com/file/d/1O42bwi6hohOh-Ivq9VuLTdPvnDOZOdKk/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\sp.jpg" alt="Icon 11">
+			<span>Space Invaders</span>
+			<a href="https://drive.google.com/file/d/1xoQpEOdSDuhZhDGzPqE9j1X6Rf-Xfy1A/view?usp=share_link" download></a>
+		</div>
+		<div class="download-link">
+			<img src="gicon\spy.jpg" alt="Icon 12">
+			<span>Spy Hunter</span>
+			<a href="https://drive.google.com/file/d/17rapBVwhekDK-mPLxdRTFqpc-IVD0ssO/view?usp=share_link" download></a>
+		</div>	
+		<!-- Add more download links here -->
+	</div>
 </body>
 <a href="javatari.html"><button style="color: rgb(0, 51, 25);">Go Back to Atari Game Sysytem</button></a>
-
 </html>
-
-
