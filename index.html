@@ -269,18 +269,25 @@ function surfto(form)
 
 <p><iframe allowfullscreen webkitallowfullscreen mozallowfullscreen src="https://video.nest.com/embedded/live/WDFYaPO8DV?autoplay=0" frameborder="0" width="720" height="576"></iframe></p>
 
-<p><div class="container">
-	<form action="https://formsubmit.co/6df515955cb10c8671887a9010fda8e0" method="POST">
-	   <h3> Send Me A Message </h3>
-	   <input type="text" id="name" placeholder="Your Name"required>
-	   <input type="email" id="email" placeholder="Email id"required>
-	   <input type="text" id="phone" placeholder="Phone no."required>
-	   <textarea id="message" rows="4" placeholder="How can i help you?"></textarea>
-	   <button type="submit">Send Message</button>
-	
-	</form>
-	
-	</div></p>
+<p><<div class="container">
+  
+  <form target="_blank" action="https://formsubmit.co/6df515955cb10c8671887a9010fda8e0" method="POST">
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col">
+          <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+        </div>
+        <div class="col">
+          <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <textarea placeholder="Your Message" class="form-control" name="message" rows="10" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-lg btn-dark btn-block">Submit Form</button>
+  </form>
+</div></p>
 
 <br>  </br>
 </center>
