@@ -15,7 +15,7 @@
    }
    
     form{
-       background: #2E8BC0; 
+       background-image:url(PB/sprk.jpg); 
 	   display: flex;
 	   flex-direction: column;
 	   padding: 2vw 4vw;
