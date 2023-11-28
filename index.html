@@ -264,7 +264,60 @@ function surfto(form)
 			
 <center>   
 <br>
+ 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arizona Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
 
+        #clock {
+            font-size: 48px;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock"></div>
+
+    <script>
+        function updateClock() {
+            const arizonaTime = new Date();
+            const utcOffset = -7; // Arizona is UTC-7
+            arizonaTime.setUTCMinutes(arizonaTime.getUTCMinutes() + (utcOffset * 60));
+            
+            let hours = arizonaTime.getUTCHours();
+            const minutes = arizonaTime.getUTCMinutes().toString().padStart(2, '0');
+            const seconds = arizonaTime.getUTCSeconds().toString().padStart(2, '0');
+            let ampm = 'AM';
+
+            if (hours >= 12) {
+                ampm = 'PM';
+            }
+
+            if (hours === 0) {
+                hours = 12;
+            } else if (hours > 12) {
+                hours -= 12;
+            }
+
+            const clockElement = document.getElementById('clock');
+            clockElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initial call to set the clock display
+        updateClock();
+    </script>
+</body>
+</html>
        <canvas id="canvas" width="400" height="400"
 style="background-color:">
 </canvas>
