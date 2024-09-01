@@ -41,7 +41,16 @@
 </head>
 
 
+const refreshButton = document.querySelector('.refresh-button');
 
+const refreshPage = () => {
+  location.reload();
+}
+
+refreshButton.addEventListener('click', refreshPage)
+.demo-image {
+  display: block;
+}
 
 
 <br> </br>
@@ -506,6 +515,8 @@ function drawHand(ctx, pos, length, width) {
     Checkers
 </font>
 
+<button class="refresh-button">Refresh!</button>
+<img class="demo-image" src="https://picsum.photos/200/300">
 
 <br>
 <p><iframe allowfullscreen webkitallowfullscreen mozallowfullscreen src="https://playpager.com/embed/checkers/index.html" frameborder="0" width="720" height="576"></iframe>
