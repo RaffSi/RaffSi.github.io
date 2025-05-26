@@ -36,6 +36,52 @@
 			font-size: 25px;
 			color: black;
 		}
+		
+		
+			/* Raff’s Tank Game button + title */
+#raff-tank-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;            /* small space between title and button */
+  color: #fff;
+  font-family: sans-serif;
+}
+
+#raff-tank-game h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  text-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+#raff-tank-game .button-wrapper {
+  line-height: 0;
+}
+
+#raff-tank-game .png-button {
+  display: block;
+  width: 200px;
+  height: auto;
+  cursor: pointer;
+  image-rendering: pixelated;
+  -webkit-user-drag: none;
+  transition: transform 0.1s ease, filter 0.1s ease;
+  filter: brightness(1);
+}
+
+/* Hover effect */
+#raff-tank-game .png-button:hover {
+  transform: translateY(3px) scale(0.95);
+  filter: brightness(1.3) drop-shadow(0 0 8px #fff);
+}
+
+/* Shrink when pressed */
+#raff-tank-game .png-button:active {
+  transform: translateY(5px) scale(0.9);
+  filter: brightness(0.9);
+}
+
+	
 
 	</style>
 </head>
@@ -604,8 +650,18 @@ function drawHand(ctx, pos, length, width) {
 			
 			
 			
-			
-			
+		<div id="raff-tank-game">
+  <h2>Raff’s Tank Game</h2>
+  <div class="button-wrapper">
+    <a href="https://tanks.rafftech.us/">
+      <img src="button/start.png"
+           alt="Start Raff’s Tank Game"
+           class="png-button">
+    </a>
+  </div>
+</div>
+
+	
 			
 			
 			
