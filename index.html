@@ -297,23 +297,141 @@ function surfto(form)
 </CENTER>
 
 		<!-- Nav -->
-			<nav id="menu">
-				</nav>
-				<br>
-				<ul class="links">
-					 
-					<a href="Raff.html"><button style="color: rgb(0, 51, 25);">Raff's room</button></a>
-					<a href="https://music.rafftech.us/shared/V_wfO4q7RB"><button style="color: rgb(0, 51, 25);">Comedy Cast</button></a>
-					<a href="gallery3.html"><button style="color: rgb(0, 51, 25);">Jovi's room</button></a>
-					<a href="M.html"><button style="color: rgb(0, 51, 25);">Family Photos</button></a>
-					<a href="Friends.html"><button style="color: rgb(0, 51, 25);">Friends Photos</button></a>
-					<a href="Tech.html"><button style="color: rgb(0, 51, 25);">Tech Builds/Repairs</button></a>
-					<a href="https://cooking.rafftech.us"><button style="color: rgb(0, 51, 25);">Recipes For Cooking</button></a>
-					<a href="gallery.html"><button style="color: rgb(0, 51, 25);">ARMY Photos</button></a>
-					<a href="https://www.twitch.tv/rafftech"><button style="color: rgb(0, 51, 25);">Game Stream Page</button></a>
- 					<a href="https://sites.google.com/view/rafftech/home"><button style="color: rgb(0, 51, 25);">My Other Website</button></a>
-                                        
-				</ul>
+<!-- ====== Button Grid (replace your old <nav>/<ul> block with this) ====== -->
+<style>
+  /* make canvas full-width and auto-height (so it only takes up as much vertical space as the grid) */
+  #buttonCanvas {
+    display: block;
+    width: 100vw;
+    height: auto;
+    margin: 0;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    
+  }
+</style>
+
+<canvas id="buttonCanvas"></canvas>
+<script>
+(function() {
+  const buttons = [
+    { src: 'button/raff-room.png',        url: 'Raff.html',                                    alt: "Raff's Room"          },
+    { src: 'button/comedy-cast.png',      url: 'https://music.rafftech.us/shared/V_wfO4q7RB', alt: 'Comedy Cast'          },
+    { src: 'button/tech-builds.png',      url: 'Tech.html',                                   alt: 'Tech Builds/Repairs' },
+    { src: 'button/recipes.png',          url: 'https://cooking.rafftech.us',                 alt: 'Recipes for Cooking'  },
+    { src: 'button/jovis-room.png',       url: 'gallery3.html',                 alt: "Jovi's Room"          },
+    { src: 'button/army-photos.png',      url: 'gallery.html',                                alt: 'ARMY Photos'          },
+    { src: 'button/friends.png',          url: 'Friends.html',                                alt: 'Friends Photos'       },
+    { src: 'button/family-photos.png',    url: 'M.html',                                      alt: 'Family Photos'        },
+    { src: 'button/game-stream.png',      url: 'https://www.twitch.tv/rafftech',              alt: 'Game Stream'          },
+    { src: 'button/my-other-website.png', url: 'https://sites.google.com/view/rafftech/home', alt: 'My Other Website'     }
+  ];
+
+  const canvas    = document.getElementById('buttonCanvas');
+  const ctx       = canvas.getContext('2d');
+  const GAP       = 4;
+  const BTN_WIDTH = 90;
+  let layouts      = [], hoverIndex   = -1, pressedIndex = -1, t0 = 0;
+
+  // preload images
+  Promise.all(buttons.map(b =>
+    new Promise(r => {
+      const img = new Image();
+      img.src = b.src;
+      img.onload  = () => r({ ...b, img });
+      img.onerror = () => (console.warn('missing', b.src), r(null));
+    })
+  )).then(res => {
+    layouts = res.filter(x => x).map(x => ({
+      ...x,
+      x:0, y:0,
+      w: BTN_WIDTH,
+      h: x.img.height * (BTN_WIDTH / x.img.width)
+    }));
+    window.addEventListener('resize',  onResize);
+    canvas.addEventListener('mousemove', onMove);
+    canvas.addEventListener('mousedown', onDown);
+    canvas.addEventListener('mouseup',   onUp);
+    canvas.addEventListener('mouseout',  () => (hoverIndex = pressedIndex = -1));
+    onResize();
+    requestAnimationFrame(draw);
+  });
+
+function onResize() {
+  // make canvas full-width
+  canvas.width  = window.innerWidth;
+
+  // figure out how many columns will fit
+  const cols = Math.max(1, Math.floor((canvas.width - GAP) / (BTN_WIDTH + GAP)));
+  // but we never actually use more columns than buttons
+  const usedCols = Math.min(layouts.length, cols);
+
+  // total width of the grid (including gaps)
+  const totalW = usedCols * (BTN_WIDTH + GAP) - GAP;
+  // center it
+  const offsetX = (canvas.width - totalW) / 2;
+
+  // now position each button
+  let minY = Infinity, maxY = -Infinity;
+  layouts.forEach((b,i) => {
+    const col = i % cols, row = Math.floor(i/cols);
+    b.x = offsetX + col * (BTN_WIDTH + GAP);
+    b.y = GAP     + row * (b.h     + GAP);
+    minY = Math.min(minY, b.y);
+    maxY = Math.max(maxY, b.y + b.h);
+  });
+
+  // shrink-wrap canvas height to the grid
+  canvas.height = (maxY - minY) + GAP;
+}
+
+
+  function draw(ts) {
+    t0 = ts;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    layouts.forEach((b,i) => {
+      ctx.save();
+      let {x,y,w,h} = b;
+      if (i===pressedIndex) {
+        w*=0.9; h*=0.9; x+=(b.w-w)/2; y+=(b.h-h)/2;
+        ctx.filter='brightness(0.7)';
+      } else if (i===hoverIndex) {
+        y += Math.sin(ts/200)*5;
+        ctx.filter='brightness(1.3) drop-shadow(0 0 5px #fff)';
+      } else ctx.filter='none';
+      ctx.drawImage(b.img,x,y,w,h);
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  function getIdx(e) {
+    const r = canvas.getBoundingClientRect(),
+          mx = e.clientX - r.left,
+          my = e.clientY - r.top;
+    return layouts.findIndex(b => mx>=b.x&&mx<=b.x+b.w && my>=b.y&&my<=b.y+b.h);
+  }
+  function onMove(e) {
+    hoverIndex = getIdx(e);
+    canvas.style.cursor = hoverIndex>=0 ? 'pointer':'default';
+  }
+  function onDown(e) {
+    pressedIndex = getIdx(e);
+  }
+  function onUp(e) {
+    const idx = getIdx(e);
+    if (pressedIndex>=0 && idx===pressedIndex) {
+      const url = layouts[idx].url;
+      if (url) window.open(url,'_blank');
+    }
+    pressedIndex = -1;
+  }
+})();
+</script>
+<!-- ==================================================================== -->
+
 
 			
 <center>   
