@@ -23,6 +23,9 @@
 			font-size: 25px;
 			color: black;
 		}
+		
+		
+		
 
 	</style>
 </head>
@@ -40,22 +43,32 @@
 <center><marquee behavior="alternate"><h2><b>My Office </b></h2></marquee><br><a href="index.html">
 <table>
 <tr><td>
-<body bgcolor="#e5ffcc" text="#006633">
 
-<a href="Raff\IMG_0310.JPG"><img src="Raff\IMG_0310.JPG" width="1209px" height="350px"></a>
-<p>
-<a href="Raff\IMG_0311.JPG"><img src="Raff\IMG_0311.JPG" width="400px" height="250px"></a>
-<a href="Raff\IMG_0312.JPG"><img src="Raff\IMG_0312.JPG" width="400px" height="250px"></a>
-<a href="Raff\IMG_0313.JPG"><img src="Raff\IMG_0313.JPG" width="400px" height="250px"></a>
-<a href="Raff\IMG_0314.JPG"><img src="Raff\IMG_0314.JPG" width="400px" height="250px"></a>
-<a href="Raff\IMG_0315.JPG"><img src="Raff\IMG_0315.JPG" width="400px" height="250px"></a>
-<a href="Raff\IMG_0316.JPG"><img src="Raff\IMG_0316.JPG" width="400px" height="250px"></a>
-<a href="Raff\IMG_0317.JPG"><img src="Raff\IMG_0317.JPG" width="400px" height="250px"></a>
-<a href="Raff\IMG_0325.JPG"><img src="Raff\IMG_0325.JPG" width="400px" height="250px"></a>
-<a href="Raff\b.jpg"><img src="Raff\b.jpg" width="400px" height="250px"></a>
-<a href="Raff\g.jpg"><img src="Raff\g.jpg" width="400px" height="250px"></a>
 
-<p>
+
+<body style="background-color:#e5ffcc; color:#006633;">
+
+ 
+
+  <div style="text-align:center;">
+    <a href="Raff/IMG_0310.JPG"><img src="Raff/IMG_0310.JPG" width="1209px" height="350px"></a><br><br>
+
+    <a href="Raff/IMG_0311.JPG"><img src="Raff/IMG_0311.JPG" width="400px" height="250px"></a>
+    <a href="Raff/IMG_0312.JPG"><img src="Raff/IMG_0312.JPG" width="400px" height="250px"></a>
+    <a href="Raff/IMG_0313.JPG"><img src="Raff/IMG_0313.JPG" width="400px" height="250px"></a>
+    <a href="Raff/IMG_0314.JPG"><img src="Raff/IMG_0314.JPG" width="400px" height="250px"></a><br><br>
+
+    <a href="Raff/IMG_0315.JPG"><img src="Raff/IMG_0315.JPG" width="400px" height="250px"></a>
+    <a href="Raff/IMG_0316.JPG"><img src="Raff/IMG_0316.JPG" width="400px" height="250px"></a>
+    <a href="Raff/IMG_0317.JPG"><img src="Raff/IMG_0317.JPG" width="400px" height="250px"></a>
+    <a href="Raff/IMG_0325.JPG"><img src="Raff/IMG_0325.JPG" width="400px" height="250px"></a><br><br>
+
+    <a href="Raff/b.jpg"><img src="Raff/b.jpg" width="400px" height="250px"></a>
+    <a href="Raff/g.jpg"><img src="Raff/g.jpg" width="400px" height="250px"></a>
+  </div>
+
+</body>
+
 
 
 </p>
@@ -65,6 +78,146 @@
 
 </table>
 </body>
-<p> <button style="color: rgb(0, 51, 25);">Home</button></a> <a href="https://tubitv.com/tv-shows"><button style="color: rgb(0, 51, 25);">Tubi TV</button> <a href="http://QuickConnect.to/Rafael40"><button style="color: rgb(0, 51, 25);">Vault</button> </a>  <a href="http://QuickConnect.to/Rafael50"><button style="color: rgb(0, 51, 25);">Vault2</button></a>
-<a href="javatari.html"><button style="color: rgb(0, 51, 25);">Atari Game Sysytem</button> </a> <a href="https://nxt.rafftech.us/login"><button style="color: rgb(0, 51, 25);">Nextcloud</button> </a> <a href="resp.html"><button style="color: rgb(0, 51, 25);">Respiratory Stuff</button></a> <a href="https://rafftech.wordpress.com"><button style="color: rgb(0, 51, 25);">Resume</button></a> <a href="https://plex.rafftech.us"><button style="color: rgb(0, 51, 25);">Movies</button></a><a href="https://emulatorjs.rafftech.us/"> <button style="color: rgb(0, 51, 25);">Retro Games</button> </a> </p><p>
+<p> 
+
+
+<!-- ====== Button Grid (replace your old <nav>/<ul> block with this) ====== -->
+<style>
+  /* make canvas full-width and auto-height (so it only takes up as much vertical space as the grid) */
+  #buttonCanvas {
+    display: block;
+    width: 100vw;
+    height: auto;
+    margin: 0;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    
+  }
+</style>
+
+<canvas id="buttonCanvas"></canvas>
+<script>
+(function() {
+  const buttons = [
+    { src: 'button/home.png',        url: 'index.html',                                       alt: "Home"          },
+    { src: 'button/tubi.png',      url: 'https://tubitv.com/tv-shows',                        alt: 'Tubi TV'          },
+    { src: 'button/vault.png',      url: 'http://QuickConnect.to/Rafael40',                   alt: 'Vault' },
+    { src: 'button/vault2.png',          url: 'http://QuickConnect.to/Rafael50',              alt: 'Vault2'  },
+	{ src: 'button/irwin.png',          url: 'gallery.html',              alt: 'Army Photos'  },
+	{ src: 'button/alaska.png',          url: 'gallery2.html',              alt: 'Army Photos'  },
+    { src: 'button/atari.png',       url: 'javatari.html',                                    alt: "Atari Game Sysytem"          },
+    { src: 'button/next.png',      url: 'https://nxt.rafftech.us/login',                      alt: 'NextCloud'          },
+    { src: 'button/resume.png',          url: 'https://rafftech.wordpress.com',               alt: 'Resume'       },
+    { src: 'button/retro.png',      url: 'https://emulatorjs.rafftech.us/',              alt: 'Retro Games'          },
+    { src: 'button/movies.png', url: 'https://plex.rafftech.us',                    alt: 'Plex Movies'     }
+  ];
+
+  const canvas    = document.getElementById('buttonCanvas');
+  const ctx       = canvas.getContext('2d');
+  const GAP       = 4;
+  const BTN_WIDTH = 90;
+  let layouts      = [], hoverIndex   = -1, pressedIndex = -1, t0 = 0;
+
+  // preload images
+  Promise.all(buttons.map(b =>
+    new Promise(r => {
+      const img = new Image();
+      img.src = b.src;
+      img.onload  = () => r({ ...b, img });
+      img.onerror = () => (console.warn('missing', b.src), r(null));
+    })
+  )).then(res => {
+    layouts = res.filter(x => x).map(x => ({
+      ...x,
+      x:0, y:0,
+      w: BTN_WIDTH,
+      h: x.img.height * (BTN_WIDTH / x.img.width)
+    }));
+    window.addEventListener('resize',  onResize);
+    canvas.addEventListener('mousemove', onMove);
+    canvas.addEventListener('mousedown', onDown);
+    canvas.addEventListener('mouseup',   onUp);
+    canvas.addEventListener('mouseout',  () => (hoverIndex = pressedIndex = -1));
+    onResize();
+    requestAnimationFrame(draw);
+  });
+
+function onResize() {
+  // make canvas full-width
+  canvas.width  = window.innerWidth;
+
+  // figure out how many columns will fit
+  const cols = Math.max(1, Math.floor((canvas.width - GAP) / (BTN_WIDTH + GAP)));
+  // but we never actually use more columns than buttons
+  const usedCols = Math.min(layouts.length, cols);
+
+  // total width of the grid (including gaps)
+  const totalW = usedCols * (BTN_WIDTH + GAP) - GAP;
+  // center it
+  const offsetX = (canvas.width - totalW) / 2;
+
+  // now position each button
+  let minY = Infinity, maxY = -Infinity;
+  layouts.forEach((b,i) => {
+    const col = i % cols, row = Math.floor(i/cols);
+    b.x = offsetX + col * (BTN_WIDTH + GAP);
+    b.y = GAP     + row * (b.h     + GAP);
+    minY = Math.min(minY, b.y);
+    maxY = Math.max(maxY, b.y + b.h);
+  });
+
+  // shrink-wrap canvas height to the grid
+  canvas.height = (maxY - minY) + GAP;
+}
+
+
+  function draw(ts) {
+    t0 = ts;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    layouts.forEach((b,i) => {
+      ctx.save();
+      let {x,y,w,h} = b;
+      if (i===pressedIndex) {
+        w*=0.9; h*=0.9; x+=(b.w-w)/2; y+=(b.h-h)/2;
+        ctx.filter='brightness(0.7)';
+      } else if (i===hoverIndex) {
+        y += Math.sin(ts/200)*5;
+        ctx.filter='brightness(1.3) drop-shadow(0 0 5px #fff)';
+      } else ctx.filter='none';
+      ctx.drawImage(b.img,x,y,w,h);
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  function getIdx(e) {
+    const r = canvas.getBoundingClientRect(),
+          mx = e.clientX - r.left,
+          my = e.clientY - r.top;
+    return layouts.findIndex(b => mx>=b.x&&mx<=b.x+b.w && my>=b.y&&my<=b.y+b.h);
+  }
+  function onMove(e) {
+    hoverIndex = getIdx(e);
+    canvas.style.cursor = hoverIndex>=0 ? 'pointer':'default';
+  }
+  function onDown(e) {
+    pressedIndex = getIdx(e);
+  }
+  function onUp(e) {
+    const idx = getIdx(e);
+    if (pressedIndex>=0 && idx===pressedIndex) {
+      const url = layouts[idx].url;
+      if (url) window.open(url,'_blank');
+    }
+    pressedIndex = -1;
+  }
+})();
+</script>
+<!-- ==================================================================== -->
+
+
+
+ </p><p>
 </html>
