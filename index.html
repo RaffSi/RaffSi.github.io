@@ -468,10 +468,10 @@ function onResize() {
   }
   function onUp(e) {
     const idx = getIdx(e);
-    if (pressedIndex>=0 && idx===pressedIndex) {
-      const url = layouts[idx].url;
-      if (url) window.open(url,'_blank');
-    }
+ if (pressedIndex >= 0 && idx === pressedIndex && layouts[idx].url) {
+  window.location.href = layouts[idx].url;
+}
+
     pressedIndex = -1;
   }
 })();
