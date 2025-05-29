@@ -1,65 +1,335 @@
-
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Raff's Website</title>
+  <meta charset="UTF-8">
+  <title>Peanut</title>
+  <style>
+    /* === Page & Gallery Styles === */
+    body {
+      margin: 0;
+      padding: 0;
+      background-image:url(PB/bird.jpg);
+      background-size: cover;
+      background-attachment: fixed;
+      font-family: Calibri, sans-serif;
+      color: #006633;
+      overflow-x: hidden;
+    }
+    .content {
+      width: 80%;
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 40px 0;
+      box-sizing: border-box;
+      /* no background—fully transparent now */
+    }
+    .gallery {
+      text-align: center;
+    }
+    .gallery a {
+      margin: 8px;
+      display: inline-block;
+    }
+    .gallery img {
+      width: 400px;
+      height: 250px;
+      object-fit: cover;
+      cursor: pointer;
+      border-radius: 4px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
 
-	<style type="text/css">
-		
-		body{
-			background-image:url(PB/bird.jpg);
-			background-size: cover;
-			background-attachment: fixed;
-		}
+    /* === Lightbox === */
+    #lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border: 4px solid white;
+      border-radius: 8px;
+      box-shadow: 0 0 20px black;
+    }
+    #lightbox .close {
+      position: absolute;
+      top: 20px; right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      z-index: 10000;
+    }
 
-		.content{
-			background: white;
-			width: 50%;
-			padding: 40px;
-			margin: 100px auto;
-			font-family: calibri;
-			border-radius: 10px;
-		}
+    /* === Canvas Button Grid === */
+    #buttonCanvas {
+      display: block;
+      margin: 40px auto;
+      background: transparent;
+    }
+	
+	
+	.content {
+  width: 90%;
+  max-width: 1400px;
+  margin: 80px auto;
+  padding: 0;
+}
 
-		p{
-			font-size: 25px;
-			color: black;
-		}
+.gallery {
+  display: grid;
+  /* auto-fit as many 300px-wide columns as will fit, each at least 200px */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
 
-	</style>
+.gallery a {
+  display: block;
+}
+
+.gallery img {
+  width: 100%;     /* fill its grid cell */
+  height: auto;    /* keep aspect ratio */
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+
+	
+  </style>
 </head>
+<body>
+
+<center>
+  <marquee behavior="alternate">
+    <h2 style="
+      font-size: 3.8em;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
+    ">
+      <b>Our Bird Peanut </b>
+    </h2>
+  </marquee>
+</center>
+
+  <div class="content">
+    <div class="gallery">
+      <!-- your gallery thumbnails -->
+	  
+	 
+	  
+	  
+	  
+      <iframe class="gallery-item" src="https://player.vimeo.com/video/831213789?h=be045a4e5d&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="200" height="356" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="IMG_1087"></iframe>
+
+      <a class="gallery-item" href="bird/IMG_0356.jpg"><img src="bird/IMG_0356.jpg" alt=""></a>
+      <a class="gallery-item" href="bird/IMG_0355.jpg"><img src="bird/IMG_0355.jpg" alt=""></a>
+
+      <iframe class="gallery-item" src="https://player.vimeo.com/video/912344243?h=9bba8beb78" width="200" height="356" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="IMG_1087"></iframe>
+
+      <a class="gallery-item" href="bird/IMG_0354.jpg"><img src="bird/IMG_0354.jpg" alt=""></a>
+      <a class="gallery-item" href="bird/IMG_0357.jpg"><img src="bird/IMG_0357.jpg" alt=""></a>
+      <a class="gallery-item" href="bird/IMG_0359.jpg"><img src="bird/IMG_0359.jpg" alt=""></a>
+
+      <iframe class="gallery-item" title="vimeo-player" src="https://player.vimeo.com/video/1040564586?h=7e6aaa9ba7" width="640" height="360" frameborder="0" allowfullscreen></iframe>
 
 
 
 
+      <!-- add the rest of your <a><img>… entries here -->
+    
+	</div>
+  </div>
 
+  <!-- Lightbox Overlay -->
+  <div id="lightbox">
+    <span class="close">&times;</span>
+    <img id="lightbox-img" src="" alt="Expanded View">
+  </div>
 
+  <!-- Canvas for Your Button Grid -->
+  <canvas id="buttonCanvas"></canvas>
 
+  <!-- Lightbox Script -->
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('#lightbox .close');
 
+    document.querySelectorAll('.gallery a img').forEach(img => {
+      img.addEventListener('click', e => {
+        e.preventDefault();
+        lightboxImg.src = img.parentElement.href;
+        lightbox.style.display = 'flex';
+      });
+    });
 
-<html>
-<head>
-<title>Peanut</title>
-</head>
-<body bgcolor="#e5ffcc" text="#006633">
-<center><marquee behavior="alternate"><h2><b>Our Bird Peanut</b></h2></marquee><br><a href="index.html">
-<table>
-<tr><td>
-  <iframe title="vimeo-player" src="https://player.vimeo.com/video/1040564586?h=7e6aaa9ba7" width="640" height="360" frameborder="0"    allowfullscreen></iframe>
-  <iframe src="https://player.vimeo.com/video/831213789?h=be045a4e5d&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="200" height="356" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="IMG_1087"></iframe>
-  
-<a href="bird\IMG_0356.jpg"><img src="bird\IMG_0356.jpg" width="400px" height="250px"></a>
-<a href="bird\IMG_0355.jpg"><img src="bird\IMG_0355.jpg" width="400px" height="250px"></a>
+    closeBtn.addEventListener('click', () => {
+      lightbox.style.display = 'none';
+      lightboxImg.src = '';
+    });
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+        lightboxImg.src = '';
+      }
+    });
+  </script>
 
-<iframe src="https://player.vimeo.com/video/912344243?h=9bba8beb78" width="200" height="356" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="IMG_1087"></iframe>
+  <!-- Responsive Canvas Button Grid Script -->
+  <script>
+  (function() {
+    const buttons = [
+      { src: 'button/home7.png', url: 'index.html' },
+      { src: 'button/a7.png',   url: 'gallery2.html' }
+      // …add more buttons here…
+    ];
 
-<a href="bird\IMG_0354.jpg"><img src="bird\IMG_0354.jpg" width="400px" height="250px"></a>	
-<a href="bird\IMG_0357.jpg"><img src="bird\IMG_0357.jpg" width="400px" height="250px"></a>
-<a href="bird\IMG_0359.jpg"><img src="bird\IMG_0359.jpg" width="400px" height="250px"></a> 
+    const canvas = document.getElementById('buttonCanvas');
+    const ctx    = canvas.getContext('2d');
+    const GAP    = 4;
+    let BTN_WIDTH    = 90;
+    let layouts      = [];
+    let hoverIndex   = -1;
+    let pressedIndex = -1;
+    let animTime     = 0;
 
-</tr>
+    // 1) preload
+    Promise.all(buttons.map(b =>
+      new Promise(r => {
+        const img = new Image();
+        img.src = b.src;
+        img.onload  = () => r({ ...b, img });
+        img.onerror = () => (console.warn('Missing', b.src), r(null));
+      })
+    )).then(results => {
+      layouts = results
+        .filter(x => x)
+        .map(x => ({
+          img: x.img,
+          url: x.url,
+          x: 0, y: 0,
+          w: BTN_WIDTH,
+          h: x.img.height * (BTN_WIDTH / x.img.width)
+        }));
 
-</table>
+      window.addEventListener('resize', onResize);
+      canvas.addEventListener('mousemove', onMouseMove);
+      canvas.addEventListener('mousedown', onMouseDown);
+      canvas.addEventListener('mouseup',   onMouseUp);
+      canvas.addEventListener('mouseout',  () => (hoverIndex = pressedIndex = -1));
+
+      onResize();
+      requestAnimationFrame(drawFrame);
+    });
+
+    // 2) layout + center
+    function onResize() {
+      const W = window.innerWidth;
+      // canvas full width
+      canvas.width = W;
+
+      // responsive width: 1/8th of screen, max 200px
+      BTN_WIDTH = Math.min(200, W / 8);
+
+      // how many columns fit
+      const cols     = Math.max(1, Math.floor((W + GAP) / (BTN_WIDTH + GAP)));
+      const usedCols = Math.min(layouts.length, cols);
+      const totalW   = usedCols * (BTN_WIDTH + GAP) - GAP;
+      const offsetX  = (W - totalW) / 2;
+
+      // position each
+      let maxY = 0;
+      layouts.forEach((b, i) => {
+        b.w = BTN_WIDTH;
+        b.h = b.img.height * (BTN_WIDTH / b.img.width);
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        b.x = offsetX + col * (BTN_WIDTH + GAP);
+        b.y = GAP + row * (b.h + GAP);
+        maxY = Math.max(maxY, b.y + b.h);
+      });
+
+      // shrink-wrap canvas height to buttons
+      canvas.height = maxY + GAP;
+    }
+
+    // 3) render loop
+    function drawFrame(ts) {
+      animTime = ts;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      layouts.forEach((b, i) => {
+        ctx.save();
+        let x = b.x, y = b.y, w = b.w, h = b.h;
+
+        if (i === pressedIndex) {
+          // shrink + darken on press
+          w *= 0.9; h *= 0.9;
+          x += (b.w - w) / 2;
+          y += (b.h - h) / 2;
+          ctx.filter = 'brightness(0.7)';
+        } else if (i === hoverIndex) {
+          // bob + glow on hover
+          y += Math.sin(animTime / 200) * 5;
+          ctx.filter = 'brightness(1.3) drop-shadow(0 0 5px #fff)';
+        } else {
+          ctx.filter = 'none';
+        }
+
+        ctx.drawImage(b.img, x, y, w, h);
+        ctx.restore();
+      });
+
+      requestAnimationFrame(drawFrame);
+    }
+
+    // 4) hit-testing & events
+    function hitIndex(e) {
+      const r  = canvas.getBoundingClientRect();
+      const mx = e.clientX - r.left;
+      const my = e.clientY - r.top;
+      return layouts.findIndex(b =>
+        mx >= b.x && mx <= b.x + b.w &&
+        my >= b.y && my <= b.y + b.h
+      );
+    }
+    function onMouseMove(e) {
+      hoverIndex = hitIndex(e);
+      canvas.style.cursor = hoverIndex >= 0 ? 'pointer' : 'default';
+    }
+    function onMouseDown(e) {
+      pressedIndex = hitIndex(e);
+    }
+    function onMouseUp(e) {
+      const idx = hitIndex(e);
+if (pressedIndex >= 0 && idx === pressedIndex && layouts[idx].url) {
+  window.location.href = layouts[idx].url;
+}
+
+      pressedIndex = -1;
+    }
+  })();
+  </script>
 </body>
-<p> <button style="color: rgb(0, 51, 25);">Home</button></a></p>
 </html>
