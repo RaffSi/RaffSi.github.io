@@ -364,6 +364,8 @@ function surfto(form)
 <script>
 (function() {
   const buttons = [
+    
+
     { src: 'button/raff-room.png',        url: 'Raff.html',                                    alt: "Raff's Room"          },
     { src: 'button/music.png',      url: 'https://music.rafftech.us/shared/7kPR-uLxaQ',        alt: 'Music Cast'          },
     { src: 'button/tech-builds.png',      url: 'Tech.html',                                   alt: 'Tech Builds/Repairs' },
@@ -484,141 +486,202 @@ function onResize() {
 <center>   
 <br>
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arizona Clock</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        #clock {
-            font-size: 48px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arizona Clock</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #clock {
+      font-size: 48px;
+    }
+  </style>
 </head>
 <body>
-    <div id="clock"></div>
 
-    <script>
-        function updateClock() {
-            const arizonaTime = new Date();
-            const utcOffset = -7; // Arizona is UTC-7
-            arizonaTime.setUTCMinutes(arizonaTime.getUTCMinutes() + (utcOffset * 60));
-            
-            let hours = arizonaTime.getUTCHours();
-            const minutes = arizonaTime.getUTCMinutes().toString().padStart(2, '0');
-            const seconds = arizonaTime.getUTCSeconds().toString().padStart(2, '0');
-            let ampm = 'AM';
+  <div id="clock"></div>
+ 
 
-            if (hours >= 12) {
-                ampm = 'PM';
-            }
+  <audio id="chime"></audio>
 
-            if (hours === 0) {
-                hours = 12;
-            } else if (hours > 12) {
-                hours -= 12;
-            }
+  <canvas id="canvas" width="400" height="400" style="background-color:transparent;"></canvas>
 
-            const clockElement = document.getElementById('clock');
-            clockElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+  <script>
+    const clockElement = document.getElementById('clock');
+    const chimeAudio = document.getElementById('chime');
+    let lastChimedHour = null;
+
+    function playChime(hour) {
+      const filePath = `sounds/${hour}.wav`;
+      chimeAudio.src = filePath + `?v=${Date.now()}`;
+      chimeAudio.play().catch(e => console.log("Chime error:", e));
+    }
+
+    function testChime() {
+      const now = new Date();
+      const arizonaOffset = -7;
+      now.setUTCMinutes(now.getUTCMinutes() + arizonaOffset * 60);
+      playChime(now.getUTCHours());
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const arizonaOffset = -7;
+      now.setUTCMinutes(now.getUTCMinutes() + arizonaOffset * 60);
+
+      const hour = now.getUTCHours();
+      const minutes = now.getUTCMinutes().toString().padStart(2, '0');
+      const seconds = now.getUTCSeconds().toString().padStart(2, '0');
+
+      clockElement.textContent = `${hour.toString().padStart(2, '0')}:${minutes}:${seconds}`;
+
+      if (now.getUTCMinutes() === 0 && now.getUTCSeconds() === 0) {
+        if (lastChimedHour !== hour) {
+          playChime(hour);
+          lastChimedHour = hour;
         }
+      }
+    }
 
-        // Update the clock every second
-        setInterval(updateClock, 1000);
+    setInterval(updateClock, 1000);
+    updateClock();
 
-        // Initial call to set the clock display
-        updateClock();
-    </script>
-</body>
-</html>
-       <canvas id="canvas" width="400" height="400"
-style="background-color:">
-</canvas>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let radius = canvas.height / 2;
+    ctx.translate(radius, radius);
+    radius *= 0.90;
 
-<script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-let radius = canvas.height / 2;
-ctx.translate(radius, radius);
-radius = radius * 0.90
-setInterval(drawClock, 1000);
+    const clockImage = new Image();
+    clockImage.src = "clockface.png";
 
-function drawClock() {
-  drawFace(ctx, radius);
-  drawNumbers(ctx, radius);
-  drawTime(ctx, radius);
-}
+    const numberImages = [];
+    for (let i = 1; i <= 12; i++) {
+      const img = new Image();
+      img.src = `numbers/${i}.png`;
+      numberImages[i] = img;
+    }
+
+    setInterval(drawClock, 1000);
+
+    function drawClock() {
+      drawFace(ctx, radius);
+      drawNumbers(ctx, radius);
+      drawTime(ctx, radius);
+    }
+
+    function drawFace(ctx, radius) {
+      ctx.clearRect(-radius, -radius, radius * 2, radius * 2);
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(clockImage, -radius, -radius, radius * 2, radius * 2);
+      ctx.restore();
+
+      const grad = ctx.createRadialGradient(0, 0, radius * 0.95, 0, 0, radius * 1.05);
+      grad.addColorStop(0, '#333');
+      grad.addColorStop(0.5, 'white');
+      grad.addColorStop(1, '#333');
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = radius * 0.1;
+      ctx.stroke();
 
 function drawFace(ctx, radius) {
-  const grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+  ctx.clearRect(-radius, -radius, radius * 2, radius * 2);
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.clip();
+  ctx.drawImage(clockImage, -radius, -radius, radius * 2, radius * 2);
+  ctx.restore();
+
+  const grad = ctx.createRadialGradient(0, 0, radius * 0.95, 0, 0, radius * 1.05);
   grad.addColorStop(0, '#333');
   grad.addColorStop(0.5, 'white');
   grad.addColorStop(1, '#333');
   ctx.beginPath();
-  ctx.arc(0, 0, radius, 0, 2*Math.PI);
-  ctx.fillStyle = 'white';
-  ctx.fill();
+  ctx.arc(0, 0, radius, 0, 2 * Math.PI);
   ctx.strokeStyle = grad;
-  ctx.lineWidth = radius*0.1;
+  ctx.lineWidth = radius * 0.1;
   ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
-  ctx.fillStyle = '#333';
-  ctx.fill();
+
+  // Removed center dot
+  // ctx.beginPath();
+  // ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+  // ctx.fillStyle = '#333';
+  // ctx.fill();
 }
 
-function drawNumbers(ctx, radius) {
-  ctx.font = radius*0.15 + "px arial";
-  ctx.textBaseline="middle";
-  ctx.textAlign="center";
-  for(let num = 1; num < 13; num++){
-    let ang = num * Math.PI / 6;
-    ctx.rotate(ang);
-    ctx.translate(0, -radius*0.85);
-    ctx.rotate(-ang);
-    ctx.fillText(num.toString(), 0, 0);
-    ctx.rotate(ang);
-    ctx.translate(0, radius*0.85);
-    ctx.rotate(-ang);
-  }
-}
+    }
 
-function drawTime(ctx, radius){
-    const now = new Date();
-    let hour = now.getHours();
-    let minute = now.getMinutes();
-    let second = now.getSeconds();
-    //hour
-    hour=hour%12;
-    hour=(hour*Math.PI/6)+
-    (minute*Math.PI/(6*60))+
-    (second*Math.PI/(360*60));
-    drawHand(ctx, hour, radius*0.5, radius*0.07);
-    //minute
-    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
-    drawHand(ctx, minute, radius*0.8, radius*0.07);
-    // second
-    second=(second*Math.PI/30);
-    drawHand(ctx, second, radius*0.9, radius*0.02);
-}
+    function drawNumbers(ctx, radius) {
+      const size = radius * 0.25;
+      for (let num = 1; num <= 12; num++) {
+        const ang = num * Math.PI / 6;
+        const x = radius * 0.85 * Math.sin(ang);
+        const y = -radius * 0.85 * Math.cos(ang);
+        const img = numberImages[num];
+        if (img.complete) {
+          ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
+        } else {
+          img.onload = () => {
+            ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
+          };
+        }
+      }
+    }
 
-function drawHand(ctx, pos, length, width) {
-    ctx.beginPath();
-    ctx.lineWidth = width;
-    ctx.lineCap = "round";
-    ctx.moveTo(0,0);
-    ctx.rotate(pos);
-    ctx.lineTo(0, -length);
-    ctx.stroke();
-    ctx.rotate(-pos);
-}
-</script>       
+    function drawTime(ctx, radius) {
+      const now = new Date();
+      let hour = now.getHours();
+      let minute = now.getMinutes();
+      let second = now.getSeconds();
+
+      hour = hour % 12;
+      const hourAngle = (hour * Math.PI / 6) +
+                        (minute * Math.PI / (6 * 60)) +
+                        (second * Math.PI / (360 * 60));
+      const minuteAngle = (minute * Math.PI / 30) +
+                          (second * Math.PI / (30 * 60));
+      const secondAngle = (second * Math.PI / 30);
+
+      drawHand(ctx, hourAngle, radius * 0.5, radius * 0.05);   // thinner
+      drawHand(ctx, minuteAngle, radius * 0.75, radius * 0.035); // thinner
+      drawHand(ctx, secondAngle, radius * 0.9, radius * 0.01); // thin second hand
+    }
+
+    function drawHand(ctx, angle, length, width) {
+      ctx.beginPath();
+      ctx.lineWidth = width;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000"; // solid black
+      ctx.moveTo(0, 0);
+      ctx.rotate(angle);
+      ctx.lineTo(0, -length);
+      ctx.stroke();
+      ctx.rotate(-angle);
+    }
+  </script>       
+
+
+
 
 
 
@@ -669,9 +732,14 @@ function drawHand(ctx, pos, length, width) {
 			
            <br>
 
+ 
+ 
+ 
   <a href="gallery4.html">
   <button style="width: 300px; height: 40px;">Quaker Bird "Peanut Pics</button>
 </a>
+ 
+ 
                 <br>
 
 
