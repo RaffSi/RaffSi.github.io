@@ -543,12 +543,14 @@ function onResize() {
     }).catch(e => console.warn("Audio unlock failed:", e));
   }
 
-  function testChime() {
-    const now = new Date();
-    const arizonaOffset = -7;
-    now.setUTCMinutes(now.getUTCMinutes() + arizonaOffset * 60);
-    playChime(now.getUTCHours());
-  }
+function testChime() {
+  unlockAudio(); // makes sure browser allows audio
+  const now = new Date();
+  const arizonaOffset = -7;
+  now.setUTCMinutes(now.getUTCMinutes() + arizonaOffset * 60);
+  playChime(now.getUTCHours());
+}
+
 
   function playChime(hour) {
     const filePath = `sounds/${hour}.wav`;
