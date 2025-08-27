@@ -374,125 +374,179 @@ function surfto(form)
   }
 </style>
 
+<!-- Add this just before your canvas -->
+<audio id="radioPlayer" src="https://radio.rafftech.us/listen/rafael/radio.mp3" preload="none"></audio>
+
 <canvas id="buttonCanvas"></canvas>
+
 <script>
-(function() {
+(function () {
+  const GAP = 4;
+  const BTN_WIDTH = 120;
+
+  // 1) Added radio button (uses button/radio.png). Others unchanged.
   const buttons = [
-    
+    { src: 'button/radio.png', w: 180, alt: 'Play RaffTech Radio', onClick: toggleRadio },
 
     { src: 'button/raff-room.png',        url: 'Raff.html',                                    alt: "Raff's Room"          },
-    { src: 'button/music.png',      url: 'https://music.rafftech.us/shared/7kPR-uLxaQ',        alt: 'Music Cast'          },
-    { src: 'button/tech-builds.png',      url: 'Tech.html',                                   alt: 'Tech Builds/Repairs' },
-    { src: 'button/recipes.png',          url: 'https://cooking.rafftech.us',                 alt: 'Recipes for Cooking'  },
-    { src: 'button/jovis-room.png',       url: 'gallery3.html',                               alt: "Jovi's Room"          },
-    { src: 'button/army.png',             url: 'gallery.html',                                alt: 'Army Photos'  },
-    { src: 'button/friends.png',          url: 'Friends.html',                                alt: 'Friends Photos'       },
-    { src: 'button/family-photos.png',    url: 'M.html',                                      alt: 'Family Photos'        },
-    { src: 'button/game-stream.png',      url: 'https://www.twitch.tv/rafftech',              alt: 'Game Stream'          },
-    { src: 'button/my-other-website.png', url: 'https://sites.google.com/view/rafftech/home', alt: 'My Other Website'     }
+    { src: 'button/music.png',            url: 'https://music.rafftech.us/shared/7kPR-uLxaQ',  alt: 'Music Cast'          },
+    { src: 'button/tech-builds.png',      url: 'Tech.html',                                    alt: 'Tech Builds/Repairs'  },
+    { src: 'button/recipes.png',          url: 'https://cooking.rafftech.us',                  alt: 'Recipes for Cooking'  },
+    { src: 'button/jovis-room.png',       url: 'gallery3.html',                                alt: "Jovi's Room"          },
+    { src: 'button/army.png',             url: 'gallery.html',                                 alt: 'Army Photos'          },
+    { src: 'button/friends.png',          url: 'Friends.html',                                 alt: 'Friends Photos'       },
+    { src: 'button/family-photos.png',    url: 'M.html',                                       alt: 'Family Photos'        },
+    { src: 'button/game-stream.png',      url: 'https://www.twitch.tv/rafftech',               alt: 'Game Stream'          },
+    { src: 'button/my-other-website.png', url: 'https://sites.google.com/view/rafftech/home',  alt: 'My Other Website'     }
   ];
 
-  const canvas    = document.getElementById('buttonCanvas');
-  const ctx       = canvas.getContext('2d');
-  const GAP       = 4;
-  const BTN_WIDTH = 120;
-  let layouts      = [], hoverIndex   = -1, pressedIndex = -1, t0 = 0;
+  const canvas  = document.getElementById('buttonCanvas');
+  const ctx     = canvas.getContext('2d');
+  const player  = document.getElementById('radioPlayer');
 
-  // preload images
-  Promise.all(buttons.map(b =>
-    new Promise(r => {
-      const img = new Image();
-      img.src = b.src;
-      img.onload  = () => r({ ...b, img });
-      img.onerror = () => (console.warn('missing', b.src), r(null));
-    })
-  )).then(res => {
-    layouts = res.filter(x => x).map(x => ({
+  let layouts = [];                   // [{img,x,y,w,h,url?,onClick?,alt}]
+  let hoverIndex = -1, pressedIndex = -1, t0 = 0;
+
+  // Redraw when audio state changes (so we can show a "LIVE" badge)
+  player.addEventListener('play',  () => requestAnimationFrame(draw));
+  player.addEventListener('pause', () => requestAnimationFrame(draw));
+  player.addEventListener('ended', () => requestAnimationFrame(draw));
+
+  // Preload images
+  Promise.all(buttons.map(b => new Promise(res => {
+    const img = new Image();
+    img.src = b.src;
+    img.onload  = () => res({ ...b, img });
+    img.onerror = () => { console.warn('missing', b.src); res(null); };
+  }))).then(res => {
+    layouts = res.filter(Boolean).map(x => ({
       ...x,
-      x:0, y:0,
+      x: 0, y: 0,
       w: BTN_WIDTH,
       h: x.img.height * (BTN_WIDTH / x.img.width)
     }));
-    window.addEventListener('resize',  onResize);
+    window.addEventListener('resize', onResize);
     canvas.addEventListener('mousemove', onMove);
     canvas.addEventListener('mousedown', onDown);
     canvas.addEventListener('mouseup',   onUp);
-    canvas.addEventListener('mouseout',  () => (hoverIndex = pressedIndex = -1));
+    canvas.addEventListener('mouseout',  () => { hoverIndex = pressedIndex = -1; canvas.style.cursor = 'default'; });
+    window.addEventListener('keydown', e => { if (e.code === 'Space') toggleRadio(); });
+
     onResize();
     requestAnimationFrame(draw);
   });
 
-function onResize() {
-  // make canvas full-width
-  canvas.width  = window.innerWidth;
+  function onResize() {
+    // make canvas full-width
+    canvas.width  = window.innerWidth;
 
-  // figure out how many columns will fit
-  const cols = Math.max(1, Math.floor((canvas.width - GAP) / (BTN_WIDTH + GAP)));
-  // but we never actually use more columns than buttons
-  const usedCols = Math.min(layouts.length, cols);
+    // figure out how many columns will fit
+    const cols = Math.max(1, Math.floor((canvas.width - GAP) / (BTN_WIDTH + GAP)));
+    const usedCols = Math.min(layouts.length, cols);
 
-  // total width of the grid (including gaps)
-  const totalW = usedCols * (BTN_WIDTH + GAP) - GAP;
-  // center it
-  const offsetX = (canvas.width - totalW) / 2;
+    // total width of the grid (including gaps)
+    const totalW = usedCols * (BTN_WIDTH + GAP) - GAP;
+    // center it
+    const offsetX = (canvas.width - totalW) / 2;
 
-  // now position each button
-  let minY = Infinity, maxY = -Infinity;
-  layouts.forEach((b,i) => {
-    const col = i % cols, row = Math.floor(i/cols);
-    b.x = offsetX + col * (BTN_WIDTH + GAP);
-    b.y = GAP     + row * (b.h     + GAP);
-    minY = Math.min(minY, b.y);
-    maxY = Math.max(maxY, b.y + b.h);
-  });
+    // now position each button
+    let minY = Infinity, maxY = -Infinity;
+    layouts.forEach((b, i) => {
+      const col = i % cols, row = Math.floor(i / cols);
+      b.x = offsetX + col * (BTN_WIDTH + GAP);
+      b.y = GAP     + row * (b.h     + GAP);
+      minY = Math.min(minY, b.y);
+      maxY = Math.max(maxY, b.y + b.h);
+    });
 
-  // shrink-wrap canvas height to the grid
-  canvas.height = (maxY - minY) + GAP;
-}
+    // shrink-wrap canvas height to the grid
+    canvas.height = (maxY - minY) + GAP;
 
+    // draw immediately after resize
+    draw(performance.now());
+  }
 
   function draw(ts) {
-    t0 = ts;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    layouts.forEach((b,i) => {
+    t0 = ts || performance.now();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    layouts.forEach((b, i) => {
       ctx.save();
-      let {x,y,w,h} = b;
-      if (i===pressedIndex) {
-        w*=0.9; h*=0.9; x+=(b.w-w)/2; y+=(b.h-h)/2;
-        ctx.filter='brightness(0.7)';
-      } else if (i===hoverIndex) {
-        y += Math.sin(ts/200)*5;
-        ctx.filter='brightness(1.3) drop-shadow(0 0 5px #fff)';
-      } else ctx.filter='none';
-      ctx.drawImage(b.img,x,y,w,h);
+      let { x, y, w, h } = b;
+
+      if (i === pressedIndex) {
+        w *= 0.9; h *= 0.9; x += (b.w - w) / 2; y += (b.h - h) / 2;
+        ctx.filter = 'brightness(0.7)';
+      } else if (i === hoverIndex) {
+        y += Math.sin(t0 / 200) * 5;
+        ctx.filter = 'brightness(1.3) drop-shadow(0 0 5px #fff)';
+      } else {
+        ctx.filter = 'none';
+      }
+
+      ctx.drawImage(b.img, x, y, w, h);
+
+      // If first button (radio) and playing, draw a small "LIVE" badge
+      if (i === 0 && !player.paused && !player.ended) {
+        const pad = 6, rW = 36, rH = 16;
+        ctx.fillStyle = 'rgba(0, 200, 0, 0.9)';
+        ctx.fillRect(x + w - rW - pad, y + pad, rW, rH);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 10px system-ui, Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('LIVE', x + w - rW / 2 - pad, y + pad + rH / 2 + 0.5);
+      }
+
       ctx.restore();
     });
+
     requestAnimationFrame(draw);
   }
 
   function getIdx(e) {
-    const r = canvas.getBoundingClientRect(),
-          mx = e.clientX - r.left,
-          my = e.clientY - r.top;
-    return layouts.findIndex(b => mx>=b.x&&mx<=b.x+b.w && my>=b.y&&my<=b.y+b.h);
+    const r = canvas.getBoundingClientRect();
+    const mx = e.clientX - r.left, my = e.clientY - r.top;
+    return layouts.findIndex(b => mx >= b.x && mx <= b.x + b.w && my >= b.y && my <= b.y + b.h);
   }
+
   function onMove(e) {
     hoverIndex = getIdx(e);
-    canvas.style.cursor = hoverIndex>=0 ? 'pointer':'default';
+    canvas.style.cursor = hoverIndex >= 0 ? 'pointer' : 'default';
   }
+
   function onDown(e) {
     pressedIndex = getIdx(e);
   }
+
   function onUp(e) {
     const idx = getIdx(e);
- if (pressedIndex >= 0 && idx === pressedIndex && layouts[idx].url) {
-  window.location.href = layouts[idx].url;
-}
-
+    if (pressedIndex >= 0 && idx === pressedIndex) {
+      const b = layouts[idx];
+      if (typeof b.onClick === 'function') {
+        b.onClick();
+      } else if (b.url) {
+        // open internal links in same tab, external in new tab
+        if (/^https?:\/\//i.test(b.url)) window.open(b.url, '_blank');
+        else window.location.href = b.url;
+      }
+    }
     pressedIndex = -1;
+  }
+
+  // 2) Radio toggle handler
+  function toggleRadio() {
+    if (player.paused || player.ended) {
+      player.play().catch(err => console.warn('Play blocked:', err));
+    } else {
+      player.pause();
+    }
   }
 })();
 </script>
+
+  }
+
 <!-- ==================================================================== -->
 
 
