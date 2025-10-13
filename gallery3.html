@@ -1,60 +1,96 @@
-
-
 <html>
 <head>
 	<title>Raff's Website</title>
 
 	<style type="text/css">
-		
-		body{
-			background-image:url(PB/pink.png);
+		body {
+			background-image: url("PB/pink.png");
 			background-size: cover;
 			background-attachment: fixed;
+			margin: 0;
+			padding: 0;
+			font-family: calibri;
+			text-align: center;
 		}
 
-		.content{
+		.content {
 			background: white;
 			width: 50%;
 			padding: 40px;
 			margin: 100px auto;
-			font-family: calibri;
 			border-radius: 10px;
 		}
 
-		p{
+		p {
 			font-size: 25px;
 			color: black;
 		}
 
+		/* Birthday button style */
+		.birthday-button {
+			display: inline-block;
+			margin-top: 40px;
+			margin-bottom: 30px;
+			transition: transform 0.2s ease, filter 0.2s ease;
+		}
+
+		.birthday-button img {
+			width: 180px;
+			border-radius: 12px;
+			box-shadow: 0 8px 25px rgba(255, 0, 153, 0.4);
+		}
+
+		.birthday-button:hover {
+			transform: scale(1.08);
+			filter: brightness(1.1);
+		}
 	</style>
 </head>
 
-
-
-
-
-
-
-
-
-<html>
-<head>
-<title>JoVonn's Dolls</title>
-</head>
 <body bgcolor="#e5ffcc" text="#006633">
-<center><marquee behavior="alternate"><h2><b>Jovi's Doll Room</b></h2></marquee><br><a href="index.html">
-<table>
-<tr><td>
-        
-<a href="pics\IMG_0318.JPG"><img src="pics\IMG_0318.JPG" width="400px" height="250px"></a>
-<a href="pics\IMG_0320.JPG"><img src="pics\IMG_0320.JPG" width="400px" height="250px"></a>
-<a href="pics\IMG_0321.JPG"><img src="pics\IMG_0321.JPG" width="400px" height="250px"></a>	
-<a href="pics\IMG_0322.JPG"><img src="pics\IMG_0322.JPG" width="400px" height="250px"></a>
-<a href="pics\IMG_0323.JPG"><img src="pics\IMG_0323.JPG" width="400px" height="250px"></a> 
 
-</tr>
+	<center>
+		<marquee behavior="alternate">
+			<h2><b>Jovi's Doll Room</b></h2>
+		</marquee>
 
-</table>
+		<!-- 🎁 Birthday Wish Button -->
+		<a href="BDay.html" class="birthday-button" title="Make a Birthday Wish!">
+			<img src="button/birthdaywish.png" alt="Birthday Wish Button">
+		</a>
+
+		<!-- Photo Gallery -->
+		<table>
+			<tr>
+				<td>
+					<a href="pics/IMG_0318.JPG"><img src="pics/IMG_0318.JPG" width="400" height="250"></a>
+					<a href="pics/IMG_0320.JPG"><img src="pics/IMG_0320.JPG" width="400" height="250"></a>
+					<a href="pics/IMG_0321.JPG"><img src="pics/IMG_0321.JPG" width="400" height="250"></a>
+					<a href="pics/IMG_0322.JPG"><img src="pics/IMG_0322.JPG" width="400" height="250"></a>
+					<a href="pics/IMG_0323.JPG"><img src="pics/IMG_0323.JPG" width="400" height="250"></a>
+				</td>
+			</tr>
+		</table>
+
+		<!-- Navigation Buttons -->
+		<p>
+			<a href="https://books.rafftech.us/">
+				<button style="color: rgb(0, 51, 25);">Books</button>
+			</a>
+		</p>
+		<p>
+			<a href="index.html">
+				<button style="color: rgb(0, 51, 25);">Home</button>
+			</a>
+		</p>
+		<p>
+			<a href="http://QuickConnect.to/Rafael40">
+				<button style="color: rgb(0, 51, 25);">Vault</button>
+			</a>
+			<a href="https://nxt.rafftech.us/">
+				<button style="color: rgb(0, 51, 25);">NextCloud</button>
+			</a>
+		</p>
+	</center>
 </body>
-<p> <a href="https://books.rafftech.us/"><button style="color: rgb(0, 51, 25);">Books</button></a>  <p> <a href="index.html"><button style="color: rgb(0, 51, 25);">Home</button></a> </p><p>  <a href="http://QuickConnect.to/Rafael40"><button style="color: rgb(0, 51, 25);">Vault</button></a>  <a href="https://nxt.rafftech.us/"><button style="color: rgb(0, 51, 25);">NextCloud</button></a> </p>
 </html>
