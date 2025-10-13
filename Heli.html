@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Mission to Whitney — Helicopter Rescue</title>
+<meta name="description" content="Mission to Whitney — a helicopter rescue story with audio narration and photos."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f172a; --sky:#c7e4ff; --deep:#0b4a6f; --accent:#12b3ff; --sun:#ffc043; --card:#ffffffcc; --grid:#e2f0ff;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    color:var(--ink); background:linear-gradient(180deg,#eaf6ff 0%, #f7fbff 30%, #ffffff 100%);
+  }
+  .hero{
+    position:relative; padding:56px 18px 28px; text-align:center; overflow:hidden;
+    background: radial-gradient(900px 400px at 70% -10%, #fff 0%, #dff1ff 60%, #cfe9ff 100%);
+    border-bottom: 3px solid var(--grid);
+  }
+  .hero h1{font-family:Oswald, sans-serif; letter-spacing:.5px; font-weight:800; font-size: clamp(2rem, 3.6vw + 1rem, 4rem); margin:0;}
+  .tag{display:inline-block; margin:10px 0 14px; padding:8px 14px; border-radius:999px; background:#001d2f; color:#fff; font-size:.9rem; letter-spacing:.06em}
+  .sub{opacity:.8; margin:0 auto; max-width:900px}
+
+  /* Helicopter SVG banner */
+  .sky{position:absolute; inset:0; z-index:-1; opacity:.25}
+
+  .wrap{max-width:1100px; margin:0 auto; padding:24px;}
+  .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:22px;}
+  @media (max-width:980px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--card); border:1px solid var(--grid); border-radius:18px; padding:18px; box-shadow:0 10px 30px rgba(10,59,98,.08)}
+  .card h2{margin:6px 0 10px; font-size:1.2rem; font-weight:800;}
+  .story{white-space:pre-wrap; line-height:1.6}
+
+  /* Audio player */
+  .audio{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:10px 14px; border-radius:14px; background:#fff; border:1px solid var(--grid); box-shadow:0 8px 20px rgba(0,0,0,.06)}
+  .audio button{cursor:pointer; border:none; border-radius:10px; padding:8px 12px; font-weight:800; background:linear-gradient(180deg, var(--accent), #0aa0e3); color:#fff; box-shadow:0 8px 18px rgba(18,179,255,.35)}
+  .audio button:hover{filter:saturate(1.05) brightness(1.03)}
+  .audio .time{font-variant-numeric:tabular-nums; min-width:42px; text-align:center}
+  .audio input[type=range]{width:min(520px, 60vw); accent-color: var(--accent)}
+
+  /* Timeline */
+  .timeline{position:relative; padding-left:18px}
+  .timeline::before{content:""; position:absolute; left:6px; top:4px; bottom:4px; width:3px; background:linear-gradient(#9fd9ff, #0aa0e3)}
+  .tl{display:grid; grid-template-columns: 120px 1fr; gap:12px; align-items:start; margin:10px 0}
+  .tl .t{font-weight:800; color:#0b4a6f}
+  .tl .d{opacity:.92}
+
+  /* Gallery */
+  .gallery{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
+  .gallery img{width:100%; height:220px; object-fit:cover; border-radius:12px; border:1px solid var(--grid)}
+  @media (max-width:720px){.gallery{grid-template-columns:1fr}}
+
+  footer{padding:20px; text-align:center; opacity:.7}
+</style>
+</head>
+<body>
+<header class="hero">
+  <span class="tag">January 2001 • Indio County • Night MedEvac</span>
+  <h1>Mission to Whitney — Helicopter Rescue</h1>
+  <p class="sub">A true story of a winter hoist extraction near Mount Whitney. A family of hikers. A father with a broken leg. Four crew — pilot, co‑pilot, medic, and crew‑chief — hearts pounding and rotors howling.
+  </p>
+  <svg class="sky" viewBox="0 0 1200 320" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#9dd6ff"/><stop offset="1" stop-color="#c7e4ff"/></linearGradient>
+    </defs>
+    <rect width="1200" height="320" fill="url(#g1)"/>
+    <!-- stylized mountains -->
+    <path d="M0 260 L140 190 260 240 360 160 520 240 640 170 760 230 890 150 1040 210 1200 170 1200 320 0 320 Z" fill="#bfe3ff"/>
+    <!-- helicopter silhouette -->
+    <g transform="translate(760,90)">
+      <rect x="-40" y="-6" width="80" height="12" rx="6" fill="#0b4a6f"/>
+      <rect x="-24" y="-18" width="48" height="10" rx="5" fill="#0b4a6f"/>
+      <rect x="36" y="-2" width="36" height="4" rx="2" fill="#0b4a6f"/>
+      <rect x="-72" y="-2" width="36" height="4" rx="2" fill="#0b4a6f"/>
+    </g>
+  </svg>
+</header>
+
+<main class="wrap">
+  <section class="card" style="margin-bottom:14px">
+    <h2>Mission Audio</h2>
+    <div class="audio" role="group" aria-label="Audio player">
+      <button id="pp">▶️ Play</button>
+      <span class="time" id="cur">0:00</span>
+      <input id="seek" type="range" min="0" max="100" step="0.1" value="0"/>
+      <span class="time" id="dur">0:00</span>
+      <button id="rw">⏪ -10s</button>
+      <button id="ff">⏩ +10s</button>
+    </div>
+    <audio id="audio" preload="metadata" src="music/Hearts.mp3"></audio>
+    <p style="margin:.6rem 0 0; opacity:.8">Replace <code>music/Hearts.mp3</code> with your Suno narration or song file.</p>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>Story — From Alarm to Extraction</h2>
+      <div class="story" id="storyText">Jan 2001 — the alarm sounded and the crew snapped to. Sgt. Jackson told me to jump on the flight immediately. The RTO fed us the details: a family of hikers near Mount Whitney; the father had fallen off a ledge and broken his leg. 
+
+I grabbed my log book, flight bag, and gear; pre‑flight checks were already done. We lifted with a four‑person crew — pilot, co‑pilot, medic (left door), and me as crew‑chief on the right. I rehearsed the hoist in my head the entire transit. 
+
+It wasn’t long before we had the scene in sight. We orbited, confirmed winds, set LZ parameters, and brought the bird to a steady hover. I transferred the medic’s hoist, checked harness and comms, and called the drop. 
+
+The winch sang. The medic swung down into spindrift and rock shadow. Minutes dragged. Then: “Package ready.” We brought the patient up clean. The cabin filled with cold and relief. We turned for home — one more life above the snow.</div>
+    </article>
+
+    <aside class="card">
+      <h2>Mission Timeline</h2>
+      <div class="timeline">
+        <div class="tl"><div class="t">Alert</div><div class="d">Alarm sounds; crew scrambles; RTO relays location near Whitney.</div></div>
+        <div class="tl"><div class="t">Lift</div><div class="d">Pre‑flight complete; wheels up with pilot, co‑pilot, medic, crew‑chief.</div></div>
+        <div class="tl"><div class="t">On‑Scene</div><div class="d">Orbit and assess; wind check; establish hover and hoist plan.</div></div>
+        <div class="tl"><div class="t">Hoist</div><div class="d">Medic down; rig patient; confirm comms; bring package up.</div></div>
+        <div class="tl"><div class="t">RTB</div><div class="d">Stabilize; depart to care; debrief and log the save.</div></div>
+      </div>
+
+      <h2 style="margin-top:14px">Gallery</h2>
+      <div class="gallery">
+        <img src="pics/u1.png" alt="Crew gear"/>
+        <img src="pics/SPC-Siqueiros.JPG.jpg" alt="Flight line"/>
+        <img src="pics/u2.png" alt="Mountain skyline"/>
+        <img src="pics/u3.png" alt="Hoist prep"/>
+      </div>
+    </aside>
+  </section>
+
+  <section class="card" style="margin-top:14px">
+    <h2>Credits</h2>
+    <p>Story by Rafael (crew‑chief). Medic left door; pilot/co‑pilot on the sticks. Respect to everyone who flies and everyone who waits below.</p>
+  </section>
+</main>
+
+<footer>
+  <p><a href="index.html">⬅ Back to Home</a></p>
+</footer>
+
+<script>
+(function(){
+  const a = document.getElementById('audio');
+  const pp = document.getElementById('pp');
+  const seek = document.getElementById('seek');
+  const cur = document.getElementById('cur');
+  const dur = document.getElementById('dur');
+  const rw = document.getElementById('rw');
+  const ff = document.getElementById('ff');
+  let seeking = false;
+
+  const fmt = t => { if(!isFinite(t)) return '0:00'; const m=Math.floor(t/60); const s=Math.floor(t%60).toString().padStart(2,'0'); return `${m}:${s}`; };
+
+  a.addEventListener('loadedmetadata', ()=>{ dur.textContent = fmt(a.duration); });
+  a.addEventListener('timeupdate', ()=>{
+    if(seeking) return; const pct = (a.currentTime / a.duration) * 100 || 0; seek.value = pct; cur.textContent = fmt(a.currentTime);
+  });
+  pp.addEventListener('click', async ()=>{
+    if(a.paused){ try{ await a.play(); pp.textContent='⏸️ Pause'; }catch(e){ alert('Tap once to allow audio, then try again.'); } }
+    else { a.pause(); pp.textContent='▶️ Play'; }
+  });
+  const toTime = pct => (pct/100) * (a.duration || 0);
+  seek.addEventListener('input', ()=>{ seeking=true; cur.textContent = fmt(toTime(seek.value)); });
+  seek.addEventListener('change', ()=>{ a.currentTime = toTime(seek.value); seeking=false; });
+  rw.addEventListener('click', ()=>{ a.currentTime = Math.max(0, a.currentTime - 10); });
+  ff.addEventListener('click', ()=>{ a.currentTime = Math.min(a.duration||0, a.currentTime + 10); });
+  a.addEventListener('ended', ()=>{ pp.textContent='▶️ Play'; seek.value=0; cur.textContent='0:00'; });
+})();
+</script>
+</body>
+</html>
