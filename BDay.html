@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Happy Birthday, JoVonn! 🎀</title>
+<meta name="description" content="Barbie-movie-style birthday card webpage for JoVonn — fun, fast, and stylish." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ff4fb6;       /* main Barbie pink */
+    --hotpink:#ff2ea3;    /* accents */
+    --bubble:#ffd7ef;     /* light bubble pink */
+    --violet:#8a2be2;     /* pop accent */
+    --gold:#ffce3a;       /* candle glow */
+    --ink:#1c0b1f;        /* dark text */
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background: radial-gradient(1200px 800px at 20% 10%, #ffe9f6 0%, #ffd3f1 40%, #ffc3ec 55%, #ffb5e8 70%, #fff0f9 100%);
+    font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  /* Floating sparkles */
+  .sparkle{position:fixed; top:-50px; left:0; right:0; pointer-events:none; opacity:.8}
+
+  /* Card */
+  .wrap{display:grid; place-items:center; min-height:100%; padding:24px}
+  .card{
+    width:min(980px, 95vw);
+    background:linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.55));
+    border:3px solid var(--pink);
+    border-radius:28px;
+    box-shadow:0 18px 60px rgba(255, 47, 163, .25), inset 0 0 0 8px #fff;
+    overflow:hidden;
+  }
+  .hero{
+    position:relative;
+    padding:48px 28px 24px;
+    text-align:center;
+    background: radial-gradient(1000px 500px at 70% -20%, #ffffff 0%, #ffe3f6 45%, #ffc2ea 80%);
+    border-bottom:2px dashed var(--bubble);
+  }
+  .badge{
+    display:inline-block;
+    padding:8px 14px; margin-bottom:8px;
+    font-weight:700; font-size:.9rem; letter-spacing:.06em; text-transform:uppercase;
+    background:linear-gradient(90deg, var(--pink), var(--violet));
+    color:#fff; border-radius:999px; box-shadow:0 6px 20px rgba(255, 46, 163, .35);
+  }
+  h1{
+    margin:6px 0 0; font-family:'Pacifico', cursive; font-weight:400; font-size: clamp(2rem, 5vw + 1rem, 4rem);
+    color:var(--hotpink);
+    text-shadow:0 3px 0 #fff, 0 10px 30px rgba(255,46,163,.25);
+  }
+  .sub{opacity:.85; margin:8px 0 18px; font-weight:600}
+
+  /* CTA row */
+  .ctas{display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:16px}
+  .btn{
+    --b:var(--hotpink);
+    appearance:none; border:none; cursor:pointer; font-weight:800; letter-spacing:.02em;
+    padding:12px 18px; border-radius:16px; background:linear-gradient(180deg, var(--b), #d61387);
+    color:#fff; box-shadow:0 10px 24px rgba(214,19,135,.35); transform:translateY(0);
+    transition:.2s transform ease, .2s filter ease;
+  }
+  .btn:hover{transform:translateY(-2px); filter:saturate(1.1)}
+  .btn.outline{background:#fff; color:var(--hotpink); border:2px solid var(--hotpink); box-shadow:none}
+
+  /* Content areas */
+  .grid{display:grid; grid-template-columns:1.1fr .9fr; gap:24px; padding:24px; align-items:start}
+  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+  .panel{
+    background:#fff; border:2px solid var(--bubble); border-radius:20px; padding:20px;
+    box-shadow:0 8px 24px rgba(255, 46, 163, .12)
+  }
+  .panel h2{margin:0 0 10px; font-size:1.2rem; color:var(--hotpink)}
+
+  /* Cake */
+  .cake{
+    position:relative; width:100%; aspect-ratio:16/10; display:grid; place-items:center;
+    background:linear-gradient(180deg,#fff 0%, #fff 60%, #ffe6f6 100%);
+    border-radius:16px; overflow:hidden
+  }
+  .cake svg{width:80%; max-width:500px}
+  .flame{filter:drop-shadow(0 0 6px var(--gold)); transform-origin:center; animation: flicker .14s infinite alternate}
+  @keyframes flicker{to{transform:scaleY(1.15) translateY(-1px)} }
+
+  /* Lyrics */
+  details{border:2px dashed var(--bubble); border-radius:14px; padding:14px; background:#fff}
+  summary{cursor:pointer; font-weight:700; color:var(--hotpink)}
+  .lyrics{white-space:pre-wrap; line-height:1.5; font-size:.98rem}
+
+  /* Footer */
+  .foot{padding:20px; text-align:center; opacity:.8}
+
+  /* Confetti canvas */
+  #confetti{position:fixed; inset:0; pointer-events:none}
+
+  /* Typewriter line */
+  .type{font-weight:800; font-size: clamp(1rem, 1.2rem + .6vw, 1.6rem); color:var(--violet)}
+  .cursor{display:inline-block; width:1ch; background:var(--violet); animation:blink 1s step-end infinite}
+  @keyframes blink{50%{background:transparent}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<svg class="sparkle" width="100%" height="160" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#ffe6f8"/></linearGradient>
+  </defs>
+  <g fill="url(#g)">
+    <circle cx="40" cy="60" r="3"/><circle cx="220" cy="30" r="2"/><circle cx="380" cy="80" r="4"/>
+    <circle cx="560" cy="40" r="3"/><circle cx="740" cy="20" r="2"/><circle cx="900" cy="70" r="4"/>
+    <circle cx="1080" cy="50" r="3"/>
+  </g>
+</svg>
+
+<div class="wrap">
+  <div class="card">
+    <header class="hero">
+      <span class="badge">Nov 5 • L.A. Dream • Yahoo Love</span>
+      <h1>Happy Birthday, <span style="white-space:nowrap;">JoVonn 🎀</span></h1>
+      <p class="sub">Barbie-movie style • fast, funny & fabulous</p>
+      <div class="ctas">
+        <button class="btn" id="btnConfetti">🎉 Celebrate</button>
+        <button class="btn outline" id="btnPlay">▶️ Play Song</button>
+        <button class="btn outline" id="btnPause" disabled>⏸️ Pause</button>
+        <button class="btn" id="btnWish">🕯️ Make a Wish</button>
+        <button class="btn outline" id="btnPrint">🖨️ Print/Save</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>From L.A. to Forever 💖</h2>
+        <p class="type" id="typeLine" aria-live="polite"></p>
+        <p style="margin-top:10px">Born <strong>November 5, 1976</strong> in L.A. — we met on <strong>Yahoo chat</strong>, and I’ve been falling for your Barbie sparkle ever since. Here’s to cake, laughter, and the queen of my world: <strong>JoVonn</strong>.</p>
+        <details style="margin-top:12px">
+          <summary>Show Birthday Lyrics (Barbie-style)</summary>
+          <div class="lyrics" id="lyricsText"></div>
+        </details>
+      </article>
+
+      <aside class="panel cake">
+        <!-- Cute cake SVG with candles -->
+        <svg viewBox="0 0 380 280" role="img" aria-label="Birthday cake with candles">
+          <!-- plate -->
+          <ellipse cx="190" cy="250" rx="150" ry="22" fill="#ffe6f6" stroke="#ffb5e8" stroke-width="3" />
+          <!-- cake body -->
+          <rect x="70" y="120" width="240" height="90" rx="16" fill="#fff5fb" stroke="#ffb5e8" stroke-width="3" />
+          <!-- icing drip -->
+          <path d="M70 140h240v24c-12 8-20-8-32 0s-22 10-34 0-18 8-30 0-22 10-36 0-24 8-36 0-20 10-34 0v-24z" fill="#ffb5e8" opacity=".9" />
+          <!-- sprinkles -->
+          <g fill="#ff4fb6">
+            <rect x="100" y="150" width="6" height="3" rx="2"/>
+            <rect x="130" y="160" width="6" height="3" rx="2"/>
+            <rect x="160" y="148" width="6" height="3" rx="2"/>
+            <rect x="190" y="158" width="6" height="3" rx="2"/>
+            <rect x="220" y="150" width="6" height="3" rx="2"/>
+            <rect x="250" y="162" width="6" height="3" rx="2"/>
+            <rect x="280" y="150" width="6" height="3" rx="2"/>
+          </g>
+          <!-- candles -->
+          <g>
+            <g transform="translate(120,88)">
+              <rect width="10" height="40" fill="#ffd7ef" stroke="#ff4fb6" rx="4"/>
+              <ellipse class="flame" cx="5" cy="-6" rx="5" ry="8" fill="url(#fl)"/>
+            </g>\            <g transform="translate(185,88)">
+              <rect width="10" height="40" fill="#ffd7ef" stroke="#ff4fb6" rx="4"/>
+              <ellipse class="flame" cx="5" cy="-6" rx="5" ry="8" fill="url(#fl)"/>
+            </g>
+            <g transform="translate(250,88)">
+              <rect width="10" height="40" fill="#ffd7ef" stroke="#ff4fb6" rx="4"/>
+              <ellipse class="flame" cx="5" cy="-6" rx="5" ry="8" fill="url(#fl)"/>
+            </g>
+          </g>
+          <defs>
+            <radialGradient id="fl" cx="50%" cy="60%" r="60%">
+              <stop offset="0%" stop-color="#fff7bf"/>
+              <stop offset="60%" stop-color="#ffdc6b"/>
+              <stop offset="100%" stop-color="#ff9f2d"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </aside>
+    </section>
+
+    <footer class="foot">
+      <small>Made with 💗 for JoVonn • Tip: add your Suno MP3 URL in the code where it says <em>YOUR_AUDIO_URL_HERE</em>.</small>
+    </footer>
+  </div>
+</div>
+
+<audio id="player" preload="auto"></audio>
+
+<script>
+  // ---- CONFIG ----
+  const CONFIG = {
+    name: 'JoVonn',
+    audioUrl: 'Title_ 🎂 Birthday Barbie JoVonn (L.A. D.mp3', // <- paste your Suno track URL or local file path
+    typeText: [
+      'Hey JoVonn — cue the sparkles! ✨',
+      'From L.A. sun to Yahoo fun…',
+      'You are my Barbie movie main character.',
+      'Let\'s eat cake and dance like Ken is watching.'
+    ],
+    lyrics: `*(Male Spoken Intro)*\nLights on — pink sparkle mode, November five is code for party time.\nFrom L.A. to Yahoo lines… that\'s my JoVonn, my Barbie shine!\n\n[Verse 1]\nShe was born in seventy-six, Hollywood dream in the mix,\nFrom the city of stars and Barbie cars, she\'s got that birthday fix!\nCakes and candles, frosting flow, sweetest smile that steals the show,\nShe said "Hey babe, let\'s light it up," I said "Girl, I already know!"\n\n[Pre-Chorus]\nSpin that beat like a disco toy, she\'s my birthday, real-life joy,\nFrom Yahoo chat to L.A. nights, JoVonn\'s glow hits all the lights!\n\n[Chorus]\nBirthday JoVonn, queen of L.A.! (Ah-ah-ah yeah!)\nGlitter shine on your special day! (Woah-oh-oh wow!)\nYou\'re my Barbie girl, cake and curl,\nLaughin\' loud in your Barbie world!\nBirthday JoVonn, turn it up now (Let\'s go!)\nDance like Ken don\'t know how!\n\n[Verse 2]\nCollector queen with Barbies tall, Dreamhouse pink from wall to wall,\nEvery Barbie pose a runway scene, she\'s the birthday boss, the frosting queen!\nFrom \'76 to forever on, still the spark that keeps me drawn,\nL.A. sun and party song — it\'s your day, JoVonn!\n\n[Pre-Chorus 2]\nOh she\'s my retro Hollywood, pink vinyl beat and lookin\' good,\nPop that cork, turn up the track, birthday queen is dancin\' back!\n\n[Bridge – Rap]\nBorn in \'76, she don\'t miss a trick, from Yahoo chat to married quick!\nPink lip shine and a Barbie vibe, she\'s the reason my soul\'s alive!\nJoVonn\'s cake is stacked so high, frosting glowin\', sweet as sky,\nBarbie movie vibes — you know what I mean!\n\n[Final Chorus]\nBirthday JoVonn, turn it up loud! (Ah-ah-ah yeah!)\nYou\'re the sparkle in the crowd! (Woah-oh-oh wow!)\nYou\'re my Barbie girl, in this Barbie world, life\'s a party — you\'re my pearl!\nBirthday JoVonn, own the day — November five, shout \"Yay L.A.!\"`
+  };
+
+  // ---- Typewriter ----
+  const typeEl = document.getElementById('typeLine');
+  const cursorHtml = '<span class="cursor">\u00A0</span>';
+  let line = 0, char = 0;
+  function typeLoop(){
+    if(!CONFIG.typeText.length) return;
+    const t = CONFIG.typeText[line];
+    typeEl.innerHTML = t.slice(0, char) + cursorHtml;
+    char++;
+    if(char > t.length){
+      setTimeout(()=>{ char = 0; line = (line+1)%CONFIG.typeText.length; }, 1600);
+    }
+    setTimeout(typeLoop, char>t.length? 1600 : 28 + Math.random()*40);
+  }
+  typeLoop();
+
+  // ---- Lyrics injection ----
+  const lyrics = document.getElementById('lyricsText');
+  lyrics.textContent = CONFIG.lyrics.trim();
+
+  // ---- Audio player ----
+  const player = document.getElementById('player');
+  player.src = CONFIG.audioUrl;
+  const btnPlay = document.getElementById('btnPlay');
+  const btnPause = document.getElementById('btnPause');
+
+  btnPlay.addEventListener('click', async ()=>{
+    try{
+      await player.play();
+      btnPause.disabled = false;
+    }catch(e){
+      alert('Add your Suno audio URL in the code (search for YOUR_AUDIO_URL_HERE.mp3)');
+    }
+  });
+  btnPause.addEventListener('click', ()=>{ player.pause(); });
+
+  // ---- Print/Save ----
+  document.getElementById('btnPrint').addEventListener('click', ()=>window.print());
+
+  // ---- Candle wish (flame pulse + confetti) ----
+  const btnWish = document.getElementById('btnWish');
+  btnWish.addEventListener('click', ()=>{
+    // Temporarily amp up flames
+    document.querySelectorAll('.flame').forEach(f=>{
+      f.style.animationDuration = '.08s';
+      setTimeout(()=> f.style.animationDuration = '.14s', 1500);
+    });
+    popConfetti(400);
+  });
+
+  // ---- Confetti ----
+  const confetti = document.getElementById('confetti');
+  const ctx = confetti.getContext('2d');
+  let parts = [];
+  function resize(){ confetti.width = innerWidth; confetti.height = innerHeight; }
+  addEventListener('resize', resize); resize();
+
+  function popConfetti(count=220){
+    for(let i=0;i<count;i++){
+      parts.push({
+        x: Math.random()*confetti.width,
+        y: -10,
+        r: Math.random()*6+2,
+        c: Math.random()<.5? '#ff2ea3' : (Math.random()<.5?'#ffce3a':'#8a2be2'),
+        vx: (Math.random()-.5)*4,
+        vy: Math.random()*4+2,
+        a: Math.random()*Math.PI,
+        s: Math.random()*.1+.02,
+        life: 160+Math.random()*60
+      });
+    }
+  }
+
+  function anim(){
+    ctx.clearRect(0,0,confetti.width, confetti.height);
+    parts = parts.filter(p=> p.life>0);
+    for(const p of parts){
+      p.life--; p.x += p.vx; p.y += p.vy; p.a += p.s;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.a);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r);
+      ctx.restore();
+    }
+    requestAnimationFrame(anim);
+  }
+  anim();
+
+  document.getElementById('btnConfetti').addEventListener('click', ()=>popConfetti());
+</script>
+</body>
+</html>
