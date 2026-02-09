@@ -9,6 +9,9 @@
 <head>
 
 
+
+
+
 <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	 <title>Raff's Website</title>
@@ -816,6 +819,116 @@ function testChime() {
 <p><iframe allowfullscreen webkitallowfullscreen mozallowfullscreen src="https://playpager.com/embed/checkers/index.html" frameborder="0" width="720" height="576"></iframe>
 <p></p>
 <br>
+ 
+ 
+ <div id="ow-now" class="ow-card">
+  <div class="ow-title">Overwatch 2 — Arcade Today</div>
+  <div id="ow-date" class="ow-sub"></div>
+
+  <div id="ow-modes" class="ow-modes"></div>
+
+  <div id="ow-status" class="ow-foot"></div>
+</div>
+
+<style>
+  /* Transparent + light blue theme */
+  .ow-card{
+    max-width:520px;
+    border:1px solid rgba(120, 200, 255, 0.55);
+    border-radius:14px;
+    padding:14px 16px;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background: rgba(120, 200, 255, 0.10); /* transparent light blue */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .ow-title{
+    font-weight:900;
+    font-size:1.15rem;
+    letter-spacing:0.2px;
+    color: rgba(10, 40, 70, 0.95);
+    text-shadow: 0 0 10px rgba(120, 200, 255, 0.25);
+  }
+
+  .ow-sub{
+    opacity:.9;
+    margin-top:4px;
+    font-weight:800;
+    color: rgba(10, 40, 70, 0.85);
+  }
+
+  /* No bullets, even spacing */
+  .ow-modes{
+    margin-top:12px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .ow-mode{
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(120, 200, 255, 0.50);
+    background: rgba(120, 200, 255, 0.18); /* transparent light blue */
+    font-weight:850;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    color: rgba(10, 40, 70, 0.95);
+    box-shadow: 0 0 12px rgba(120, 200, 255, 0.10);
+  }
+
+  .ow-foot{
+    margin-top:12px;
+    opacity:.85;
+    font-size:.9em;
+    font-weight:700;
+    color: rgba(10, 40, 70, 0.80);
+  }
+</style>
+
+
+
+<script>
+  const API = "https://overwatch.rafftech.us/api/overwatch/arcade-today";
+
+  async function loadOWArcade() {
+    const status = document.getElementById("ow-status");
+    const dateEl = document.getElementById("ow-date");
+    const modesWrap = document.getElementById("ow-modes");
+
+    status.textContent = "Loading…";
+    dateEl.textContent = "";
+    modesWrap.innerHTML = "";
+
+    try {
+      const r = await fetch(API, { cache: "no-store" });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const data = await r.json();
+
+      dateEl.textContent = data.date;
+
+      (data.modes || []).forEach((m) => {
+        const row = document.createElement("div");
+        row.className = "ow-mode";
+        row.textContent = m;
+        modesWrap.appendChild(row);
+      });
+
+      status.textContent = "Updated.";
+    } catch (e) {
+      status.textContent = "Couldn’t load right now.";
+      console.error(e);
+    }
+  }
+
+  loadOWArcade();
+  setInterval(loadOWArcade, 10 * 60 * 1000);
+</script>
+
+
+ 
+ 
  
 <p> <div class="container">
   <form target="_blank" action="https://formsubmit.co/6df515955cb10c8671887a9010fda8e0" method="POST">
