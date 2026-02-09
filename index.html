@@ -821,71 +821,322 @@ function testChime() {
 <br>
  
  
- <div id="ow-now" class="ow-card">
-  <div class="ow-title">Overwatch 2 — Arcade Today</div>
-  <div id="ow-date" class="ow-sub"></div>
+<div id="ow-now" class="ow2hud">
+  <div class="ow2hud-scan"></div>
 
-  <div id="ow-modes" class="ow-modes"></div>
+  <div class="ow2hud-header">
+    <img src="images/ow2-logo.png" class="ow2hud-logo" alt="Overwatch 2 Logo">
 
-  <div id="ow-status" class="ow-foot"></div>
+    <div class="ow2hud-headtext">
+      <div class="ow2hud-kicker">ARCADE • WHAT’S PLAYING NOW</div>
+      <div class="ow2hud-title">OVERWATCH 2</div>
+
+      <div class="ow2hud-meta">
+        <span class="ow2hud-live">
+          <span class="ow2hud-live-dot"></span>
+          <span id="ow-status">Loading…</span>
+        </span>
+        <span class="ow2hud-sep">•</span>
+        <span id="ow-date" class="ow2hud-date"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="ow-modes" class="ow2hud-grid"></div>
+
+  <div class="ow2hud-footer">
+    <span class="ow2hud-chip">RAFFTECH HUD</span>
+    <span class="ow2hud-chip">AUTO REFRESH</span>
+  </div>
 </div>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-  /* Transparent + light blue theme */
-  .ow-card{
-    max-width:520px;
-    border:1px solid rgba(120, 200, 255, 0.55);
-    border-radius:14px;
-    padding:14px 16px;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    background: rgba(120, 200, 255, 0.10); /* transparent light blue */
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-  }
+:root{
+  --owB:#4cc3ff;
+  --owB2:rgba(76,195,255,.18);
+  --owO:#ff9c3b;
+  --ink:#07111d;
+}
 
-  .ow-title{
-    font-weight:900;
-    font-size:1.15rem;
-    letter-spacing:0.2px;
-    color: rgba(10, 40, 70, 0.95);
-    text-shadow: 0 0 10px rgba(120, 200, 255, 0.25);
-  }
+/* ====== MAIN HUD PANEL ====== */
+.ow2hud{
+  width:min(780px, 94vw);
+  margin: 22px auto;
+  padding: 20px 18px 16px;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
 
-  .ow-sub{
-    opacity:.9;
-    margin-top:4px;
-    font-weight:800;
-    color: rgba(10, 40, 70, 0.85);
-  }
+  /* Blizzard-ish dark glass */
+  background:
+    radial-gradient(900px 420px at 15% 0%, rgba(255,156,59,.18), transparent 55%),
+    radial-gradient(900px 420px at 90% 0%, rgba(76,195,255,.18), transparent 60%),
+    linear-gradient(180deg, rgba(6,12,20,.92), rgba(5,9,15,.96));
 
-  /* No bullets, even spacing */
-  .ow-modes{
-    margin-top:12px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
+  border: 1px solid rgba(76,195,255,.45);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 10px 40px rgba(0,0,0,.45),
+    0 0 30px rgba(76,195,255,.12);
 
-  .ow-mode{
-    padding:10px 12px;
-    border-radius:10px;
-    border:1px solid rgba(120, 200, 255, 0.50);
-    background: rgba(120, 200, 255, 0.18); /* transparent light blue */
-    font-weight:850;
-    text-transform:uppercase;
-    letter-spacing:0.6px;
-    color: rgba(10, 40, 70, 0.95);
-    box-shadow: 0 0 12px rgba(120, 200, 255, 0.10);
-  }
+  font-family: Inter, system-ui, Arial;
+  color: rgba(235,250,255,.96);
+}
 
-  .ow-foot{
-    margin-top:12px;
-    opacity:.85;
-    font-size:.9em;
-    font-weight:700;
-    color: rgba(10, 40, 70, 0.80);
-  }
+/* ====== HUD CORNERS ====== */
+.ow2hud:before,
+.ow2hud:after{
+  content:"";
+  position:absolute;
+  width: 160px;
+  height: 160px;
+  pointer-events:none;
+  opacity:.9;
+}
+.ow2hud:before{
+  top: 10px; left: 10px;
+  border-top: 2px solid rgba(76,195,255,.25);
+  border-left: 2px solid rgba(76,195,255,.25);
+  border-radius: 14px 0 0 0;
+}
+.ow2hud:after{
+  bottom: 10px; right: 10px;
+  border-bottom: 2px solid rgba(255,156,59,.22);
+  border-right: 2px solid rgba(255,156,59,.22);
+  border-radius: 0 0 14px 0;
+}
+
+/* ====== ANIMATED SCAN / SHEEN ====== */
+.ow2hud-scan{
+  position:absolute;
+  inset:-40% -30%;
+  background: linear-gradient(60deg,
+    transparent 45%,
+    rgba(255,255,255,.08) 50%,
+    transparent 55%);
+  transform: translateX(-60%);
+  animation: ow2scan 4.5s linear infinite;
+  pointer-events:none;
+  opacity:.55;
+}
+@keyframes ow2scan{
+  0%   { transform: translateX(-60%) }
+  100% { transform: translateX(60%) }
+}
+
+/* Subtle moving grid */
+.ow2hud{
+  background-image:
+    radial-gradient(900px 420px at 15% 0%, rgba(255,156,59,.18), transparent 55%),
+    radial-gradient(900px 420px at 90% 0%, rgba(76,195,255,.18), transparent 60%),
+    linear-gradient(180deg, rgba(6,12,20,.92), rgba(5,9,15,.96)),
+    linear-gradient(0deg, rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: auto, auto, auto, 28px 28px, 28px 28px;
+}
+
+/* ====== HEADER ====== */
+.ow2hud-header{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(76,195,255,.18);
+}
+
+.ow2hud-logo{
+  width: 140px;         /* bigger */
+  height: auto;
+  filter:
+    drop-shadow(0 0 16px rgba(76,195,255,.35))
+    drop-shadow(0 0 12px rgba(255,156,59,.20));
+  opacity:.98;
+}
+
+.ow2hud-kicker{
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  font-size: .85rem;
+  color: rgba(255,156,59,.95);
+  text-shadow: 0 0 3px rgba(0,0,0,.9);
+}
+
+.ow2hud-title{
+  font-family: "Bebas Neue", Inter, system-ui;
+  font-size: 3.2rem;
+  letter-spacing: 2.6px;
+  line-height: .95;
+  margin-top: 2px;
+  color: rgba(245,252,255,.98);
+  text-shadow:
+    0 0 3px rgba(0,0,0,.95),
+    0 0 12px rgba(76,195,255,.18);
+}
+
+.ow2hud-meta{
+  margin-top: 10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  font-weight: 800;
+  color: rgba(210,240,255,.92);
+  text-shadow: 0 0 2px rgba(0,0,0,.95);
+}
+
+.ow2hud-sep{ opacity:.65; }
+
+.ow2hud-live{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(76,195,255,.10);
+  border: 1px solid rgba(76,195,255,.20);
+}
+
+.ow2hud-live-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(0,255,140,.95);
+  box-shadow: 0 0 10px rgba(0,255,140,.35);
+  animation: ow2pulse 1.3s ease-in-out infinite;
+}
+@keyframes ow2pulse{
+  0%,100%{ transform: scale(1); opacity:1 }
+  50%{ transform: scale(1.25); opacity:.7 }
+}
+
+/* ====== GRID ====== */
+.ow2hud-grid{
+  margin-top: 16px;
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ow2hud-item{
+  position: relative;
+  padding: 14px 14px 14px 16px;
+  border-radius: 14px;
+
+  background:
+    radial-gradient(500px 140px at 10% 0%, rgba(255,156,59,.10), transparent 60%),
+    linear-gradient(180deg, rgba(76,195,255,.10), rgba(6,12,20,.35));
+
+  border: 1px solid rgba(76,195,255,.30);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04) inset,
+    0 10px 24px rgba(0,0,0,.25);
+
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(245,252,255,.98);
+  text-shadow: 0 0 2px rgba(0,0,0,.95);
+
+  transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease;
+  overflow:hidden;
+}
+
+/* Left “energy bar” */
+.ow2hud-item:before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width: 6px;
+  background: linear-gradient(180deg, rgba(76,195,255,.95), rgba(255,156,59,.35));
+  opacity: .95;
+}
+
+/* Small corner notch */
+.ow2hud-item .ow2hud-notch{
+  position:absolute;
+  top:10px; right:10px;
+  width:10px; height:10px;
+  border-top:2px solid rgba(255,156,59,.35);
+  border-right:2px solid rgba(255,156,59,.35);
+  opacity:.8;
+}
+
+.ow2hud-item:hover{
+  transform: translateY(-2px);
+  border-color: rgba(76,195,255,.55);
+  filter: brightness(1.05);
+}
+
+/* Responsive: 1 column */
+@media (max-width: 620px){
+  .ow2hud-grid{ grid-template-columns: 1fr; }
+  .ow2hud-logo{ width: 120px; }
+  .ow2hud-title{ font-size: 2.7rem; }
+}
+
+/* ====== FOOTER CHIPS ====== */
+.ow2hud-footer{
+  margin-top: 14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  opacity:.95;
+}
+.ow2hud-chip{
+  font-weight: 800;
+  font-size: .78rem;
+  letter-spacing: 1.1px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(76,195,255,.10);
+  border: 1px solid rgba(76,195,255,.18);
+  color: rgba(210,240,255,.92);
+  text-shadow: 0 0 2px rgba(0,0,0,.95);
+}
 </style>
+
+<script>
+const API="https://overwatch.rafftech.us/api/overwatch/arcade-today";
+
+async function loadOW(){
+  const status=document.getElementById("ow-status");
+  const date=document.getElementById("ow-date");
+  const wrap=document.getElementById("ow-modes");
+
+  wrap.innerHTML="";
+  status.textContent="Loading…";
+  date.textContent="";
+
+  try{
+    const r=await fetch(API,{cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const d=await r.json();
+
+    date.textContent=d.date;
+
+    (d.modes||[]).forEach(m=>{
+      const el=document.createElement("div");
+      el.className="ow2hud-item";
+      el.innerHTML = `<span class="ow2hud-notch"></span>${m}`;
+      wrap.appendChild(el);
+    });
+
+    status.textContent="LIVE";
+  }catch(e){
+    status.textContent="OFFLINE";
+    console.log(e);
+  }
+}
+
+loadOW();
+setInterval(loadOW,600000);
+</script>
+
+
 
 
 
