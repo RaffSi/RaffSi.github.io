@@ -821,15 +821,19 @@ function testChime() {
 <br>
  
  
+ 
+ 
+ 
+ 
 <div id="ow-now" class="ow2hud">
   <div class="ow2hud-scan"></div>
 
   <div class="ow2hud-header">
-    <img src="images/ow2-logo.png" class="ow2hud-logo" alt="Overwatch 2 Logo">
+    <img src="images/ow2-logo.png" id="ow-main-logo" class="ow2hud-logo" alt="Overwatch 2 Logo">
 
     <div class="ow2hud-headtext">
       <div class="ow2hud-kicker">ARCADE • WHAT’S PLAYING NOW</div>
-      <div class="ow2hud-title">OVERWATCH </div>
+      <div class="ow2hud-title">OVERWATCH</div>
 
       <div class="ow2hud-meta">
         <span class="ow2hud-live">
@@ -857,60 +861,30 @@ function testChime() {
 <style>
 :root{
   --owB:#4cc3ff;
-  --owB2:rgba(76,195,255,.18);
   --owO:#ff9c3b;
-  --ink:#07111d;
 }
 
-/* ====== MAIN HUD PANEL ====== */
 .ow2hud{
   width:min(780px, 94vw);
-  margin: 22px auto;
-  padding: 20px 18px 16px;
-  border-radius: 18px;
-  position: relative;
-  overflow: hidden;
-
-  /* Blizzard-ish dark glass */
+  margin:22px auto;
+  padding:20px 18px 16px;
+  border-radius:18px;
+  position:relative;
+  overflow:hidden;
   background:
     radial-gradient(900px 420px at 15% 0%, rgba(255,156,59,.18), transparent 55%),
     radial-gradient(900px 420px at 90% 0%, rgba(76,195,255,.18), transparent 60%),
     linear-gradient(180deg, rgba(6,12,20,.92), rgba(5,9,15,.96));
-
-  border: 1px solid rgba(76,195,255,.45);
+  border:1px solid rgba(76,195,255,.45);
   box-shadow:
     0 0 0 1px rgba(255,255,255,.06) inset,
     0 10px 40px rgba(0,0,0,.45),
     0 0 30px rgba(76,195,255,.12);
-
   font-family: Inter, system-ui, Arial;
   color: rgba(235,250,255,.96);
 }
 
-/* ====== HUD CORNERS ====== */
-.ow2hud:before,
-.ow2hud:after{
-  content:"";
-  position:absolute;
-  width: 160px;
-  height: 160px;
-  pointer-events:none;
-  opacity:.9;
-}
-.ow2hud:before{
-  top: 10px; left: 10px;
-  border-top: 2px solid rgba(76,195,255,.25);
-  border-left: 2px solid rgba(76,195,255,.25);
-  border-radius: 14px 0 0 0;
-}
-.ow2hud:after{
-  bottom: 10px; right: 10px;
-  border-bottom: 2px solid rgba(255,156,59,.22);
-  border-right: 2px solid rgba(255,156,59,.22);
-  border-radius: 0 0 14px 0;
-}
-
-/* ====== ANIMATED SCAN / SHEEN ====== */
+/* ====== SCAN ====== */
 .ow2hud-scan{
   position:absolute;
   inset:-40% -30%;
@@ -928,62 +902,62 @@ function testChime() {
   100% { transform: translateX(60%) }
 }
 
-/* Subtle moving grid */
-.ow2hud{
-  background-image:
-    radial-gradient(900px 420px at 15% 0%, rgba(255,156,59,.18), transparent 55%),
-    radial-gradient(900px 420px at 90% 0%, rgba(76,195,255,.18), transparent 60%),
-    linear-gradient(180deg, rgba(6,12,20,.92), rgba(5,9,15,.96)),
-    linear-gradient(0deg, rgba(255,255,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-  background-size: auto, auto, auto, 28px 28px, 28px 28px;
-}
-
 /* ====== HEADER ====== */
 .ow2hud-header{
   display:flex;
   gap:18px;
   align-items:center;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(76,195,255,.18);
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(76,195,255,.18);
 }
 
 .ow2hud-logo{
-  width: 140px;         /* bigger */
-  height: auto;
+  width:140px;
+  height:auto;
+  border-radius:14px;
   filter:
     drop-shadow(0 0 16px rgba(76,195,255,.35))
     drop-shadow(0 0 12px rgba(255,156,59,.20));
   opacity:.98;
+  transition: opacity 150ms ease, transform 150ms ease;
 }
 
 .ow2hud-kicker{
-  font-weight: 900;
-  letter-spacing: 1.4px;
-  font-size: .85rem;
+  font-weight:900;
+  letter-spacing:1.4px;
+  font-size:.85rem;
   color: rgba(255,156,59,.95);
   text-shadow: 0 0 3px rgba(0,0,0,.9);
 }
 
 .ow2hud-title{
   font-family: "Bebas Neue", Inter, system-ui;
-  font-size: 3.2rem;
-  letter-spacing: 2.6px;
-  line-height: .95;
-  margin-top: 2px;
+  font-size:3.2rem;
+  letter-spacing:2.6px;
+  line-height:.95;
+  margin-top:2px;
   color: rgba(245,252,255,.98);
   text-shadow:
     0 0 3px rgba(0,0,0,.95),
     0 0 12px rgba(76,195,255,.18);
+  transition: color 120ms ease, text-shadow 120ms ease, filter 120ms ease;
+}
+
+.ow2hud-title.is-arcade-hover{
+  color: rgba(255,156,59,.98);
+  text-shadow:
+    0 0 3px rgba(0,0,0,.95),
+    0 0 18px rgba(255,156,59,.22),
+    0 0 10px rgba(76,195,255,.12);
 }
 
 .ow2hud-meta{
-  margin-top: 10px;
+  margin-top:10px;
   display:flex;
   align-items:center;
   gap:10px;
   flex-wrap:wrap;
-  font-weight: 800;
+  font-weight:800;
   color: rgba(210,240,255,.92);
   text-shadow: 0 0 2px rgba(0,0,0,.95);
 }
@@ -994,16 +968,16 @@ function testChime() {
   display:inline-flex;
   align-items:center;
   gap:8px;
-  padding: 4px 10px;
-  border-radius: 999px;
+  padding:4px 10px;
+  border-radius:999px;
   background: rgba(76,195,255,.10);
   border: 1px solid rgba(76,195,255,.20);
 }
 
 .ow2hud-live-dot{
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width:10px;
+  height:10px;
+  border-radius:50%;
   background: rgba(0,255,140,.95);
   box-shadow: 0 0 10px rgba(0,255,140,.35);
   animation: ow2pulse 1.3s ease-in-out infinite;
@@ -1015,34 +989,39 @@ function testChime() {
 
 /* ====== GRID ====== */
 .ow2hud-grid{
-  margin-top: 16px;
+  margin-top:16px;
   display:grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:12px;
 }
 
 .ow2hud-item{
-  position: relative;
-  padding: 14px 14px 14px 16px;
-  border-radius: 14px;
-
+  position:relative;
+  padding:14px 14px 14px 16px;
+  border-radius:14px;
   background:
     radial-gradient(500px 140px at 10% 0%, rgba(255,156,59,.10), transparent 60%),
     linear-gradient(180deg, rgba(76,195,255,.10), rgba(6,12,20,.35));
-
-  border: 1px solid rgba(76,195,255,.30);
+  border:1px solid rgba(76,195,255,.30);
   box-shadow:
     0 0 0 1px rgba(255,255,255,.04) inset,
     0 10px 24px rgba(0,0,0,.25);
-
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: rgba(245,252,255,.98);
-  text-shadow: 0 0 2px rgba(0,0,0,.95);
-
-  transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease;
+  display:flex;
+  align-items:center;
+  gap:12px;
   overflow:hidden;
+  cursor:pointer;
+  transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.ow2hud-item:hover{
+  transform: translateY(-2px) scale(1.01);
+  border-color: rgba(255,156,59,.55);
+  filter: brightness(1.06);
+}
+
+.ow2hud-item:active{
+  transform: translateY(0px) scale(.995);
 }
 
 /* Left “energy bar” */
@@ -1050,9 +1029,9 @@ function testChime() {
   content:"";
   position:absolute;
   left:0; top:0; bottom:0;
-  width: 6px;
+  width:6px;
   background: linear-gradient(180deg, rgba(76,195,255,.95), rgba(255,156,59,.35));
-  opacity: .95;
+  opacity:.95;
 }
 
 /* Small corner notch */
@@ -1065,33 +1044,58 @@ function testChime() {
   opacity:.8;
 }
 
-.ow2hud-item:hover{
-  transform: translateY(-2px);
-  border-color: rgba(76,195,255,.55);
-  filter: brightness(1.05);
+/* Icon button */
+.ow2hud-iconbtn{
+  width:60px;
+  height:60px;
+  flex: 0 0 60px;
+  border-radius:16px;
+  background: rgba(0,0,0,.30);
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.05) inset, 0 10px 18px rgba(0,0,0,.35);
 }
 
-/* Responsive: 1 column */
+.ow2hud-iconbtn img{
+  width:90%;
+  height:90%;
+  object-fit:contain;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.45));
+}
+
+.ow2hud-mode{
+  font-weight:900;
+  letter-spacing:1px;
+  font-size:1.15rem;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Responsive */
 @media (max-width: 620px){
   .ow2hud-grid{ grid-template-columns: 1fr; }
   .ow2hud-logo{ width: 120px; }
   .ow2hud-title{ font-size: 2.7rem; }
 }
 
-/* ====== FOOTER CHIPS ====== */
+/* Footer */
 .ow2hud-footer{
-  margin-top: 14px;
+  margin-top:14px;
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   opacity:.95;
 }
 .ow2hud-chip{
-  font-weight: 800;
-  font-size: .78rem;
-  letter-spacing: 1.1px;
-  padding: 6px 10px;
-  border-radius: 999px;
+  font-weight:800;
+  font-size:.78rem;
+  letter-spacing:1.1px;
+  padding:6px 10px;
+  border-radius:999px;
   background: rgba(76,195,255,.10);
   border: 1px solid rgba(76,195,255,.18);
   color: rgba(210,240,255,.92);
@@ -1101,6 +1105,90 @@ function testChime() {
 
 <script>
 const API="https://overwatch.rafftech.us/api/overwatch/arcade-today";
+const PNG_BASE="images/arcade/";
+const DEFAULT_LOGO="images/ow2-logo.png";
+
+const MODE_PNG={
+  "ROADHOG'S CATCH-A-MARI":"roadhog-catch-a-mari.png",
+  "ROADHOG’S CATCH-A-MARI":"roadhog-catch-a-mari.png",
+  "CATCH-A-MARI":"roadhog-catch-a-mari.png",
+
+  "DEATHMATCH":"deathmatch.png",
+  "DEATHMATCH (FFA)":"deathmatch.png",
+  "FREE-FOR-ALL":"deathmatch.png",
+  "FFA DEATHMATCH":"deathmatch.png",
+
+  "TEAM DEATHMATCH":"team-deathmatch.png",
+  "TDM":"team-deathmatch.png",
+
+  "LOW GRAVITY":"low-gravity.png",
+
+  "BOUNTY HUNTER":"bounty-hunter.png",
+
+  "CAPTURE THE FLAG":"capture-the-flag.png",
+  "CTF":"capture-the-flag.png",
+
+  "CTF BLITZ":"ctf-blitz.png",
+  "BLITZ":"ctf-blitz.png",
+
+  "NO LIMITS":"no-limits.png",
+
+  "MYSTERY HEROES":"mystery-heroes.png",
+  "TOTAL MAYHEM":"total-mayhem.png",
+  "3V3 ELIMINATION":"3v3-elimination.png",
+  "6V6 ELIMINATION":"6v6-elimination.png",
+  "ASSAULT MAPS":"assault-maps.png",
+};
+
+function decodeEntities(s){
+  if (s == null) return "";
+  const t = document.createElement("textarea");
+  t.innerHTML = String(s);
+  return t.value;
+}
+
+function normName(s){
+  return decodeEntities(s)
+    .replace(/\u2019/g, "'")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toUpperCase();
+}
+
+function slugToPng(modeName){
+  const cleaned = normName(modeName)
+    .toLowerCase()
+    .replace(/'/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+  return cleaned + ".png";
+}
+
+function pickPngForMode(modeName){
+  const key = normName(modeName);
+  if (MODE_PNG[key]) return MODE_PNG[key];
+  return slugToPng(modeName);
+}
+
+function changeMainLogo(src){
+  const logo=document.getElementById("ow-main-logo");
+  if(!logo) return;
+
+  logo.style.opacity=0;
+  logo.style.transform="scale(.95)";
+
+  setTimeout(()=>{
+    logo.src=src;
+    logo.style.opacity=1;
+    logo.style.transform="scale(1)";
+  },150);
+}
+
+function setTitleHover(isHover){
+  const titleEl=document.querySelector(".ow2hud-title");
+  if(!titleEl) return;
+  titleEl.classList.toggle("is-arcade-hover", !!isHover);
+}
 
 async function loadOW(){
   const status=document.getElementById("ow-status");
@@ -1116,12 +1204,46 @@ async function loadOW(){
     if(!r.ok) throw new Error("HTTP "+r.status);
     const d=await r.json();
 
-    date.textContent=d.date;
+    date.textContent=d.date || "";
 
-    (d.modes||[]).forEach(m=>{
+    (d.modes||[]).forEach(rawName=>{
+      const modeName = decodeEntities(rawName);
+      const pngFile = pickPngForMode(modeName);
+      const pngUrl  = PNG_BASE + pngFile;
+
       const el=document.createElement("div");
       el.className="ow2hud-item";
-      el.innerHTML = `<span class="ow2hud-notch"></span>${m}`;
+      el.innerHTML = `
+        <span class="ow2hud-notch"></span>
+
+        <span class="ow2hud-iconbtn">
+          <img src="${pngUrl}" alt="${modeName}"
+               onerror="this.style.opacity='.25'; this.style.filter='none';" />
+        </span>
+
+        <span class="ow2hud-mode">${modeName}</span>
+      `;
+
+      el.addEventListener("mouseenter", ()=>{
+        changeMainLogo(pngUrl);
+        setTitleHover(true);
+      });
+
+      el.addEventListener("mouseleave", ()=>{
+        changeMainLogo(DEFAULT_LOGO);
+        setTitleHover(false);
+      });
+
+      el.addEventListener("touchstart", ()=>{
+        changeMainLogo(pngUrl);
+        setTitleHover(true);
+      }, {passive:true});
+
+      el.addEventListener("touchend", ()=>{
+        changeMainLogo(DEFAULT_LOGO);
+        setTitleHover(false);
+      }, {passive:true});
+
       wrap.appendChild(el);
     });
 
@@ -1134,47 +1256,6 @@ async function loadOW(){
 
 loadOW();
 setInterval(loadOW,600000);
-</script>
-
-
-
-
-
-<script>
-  const API = "https://overwatch.rafftech.us/api/overwatch/arcade-today";
-
-  async function loadOWArcade() {
-    const status = document.getElementById("ow-status");
-    const dateEl = document.getElementById("ow-date");
-    const modesWrap = document.getElementById("ow-modes");
-
-    status.textContent = "Loading…";
-    dateEl.textContent = "";
-    modesWrap.innerHTML = "";
-
-    try {
-      const r = await fetch(API, { cache: "no-store" });
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      const data = await r.json();
-
-      dateEl.textContent = data.date;
-
-      (data.modes || []).forEach((m) => {
-        const row = document.createElement("div");
-        row.className = "ow-mode";
-        row.textContent = m;
-        modesWrap.appendChild(row);
-      });
-
-      status.textContent = "Updated.";
-    } catch (e) {
-      status.textContent = "Couldn’t load right now.";
-      console.error(e);
-    }
-  }
-
-  loadOWArcade();
-  setInterval(loadOWArcade, 10 * 60 * 1000);
 </script>
 
 
