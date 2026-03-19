@@ -50,9 +50,40 @@
 <body bgcolor="#e5ffcc" text="#006633">
 
 	<center>
-		<marquee behavior="alternate">
-			<h2><b>Jovi's Doll Room</b></h2>
-		</marquee>
+		
+		
+		<div class="scroll-banner">
+  <h1><b>Jovi's Doll Room</b></h1>
+</div>
+
+<style>
+.scroll-banner {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: left;
+  margin: 20px 0;
+}
+
+.scroll-banner h1 {
+  display: inline-block;
+  margin: 0;
+  color: purple;
+  text-shadow: 0 0 8px rgba(255,255,255,0.7);
+  padding-left: 100%;
+  animation: scrollLeft 12s linear infinite;
+}
+
+@keyframes scrollLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+</style>
+		
 
 		<!-- 🎁 Birthday Wish Button -->
 		<a href="BDay.html" class="birthday-button" title="Make a Birthday Wish!">

@@ -115,20 +115,44 @@
 <body>
 
 <center>
-  <marquee behavior="alternate">
-    <h2 style="
-      font-size: 3.8em;
-      color: #ffffff;
-      font-weight: bold;
-      text-shadow:
-        -2px -2px 0 #000,
-         2px -2px 0 #000,
-        -2px  2px 0 #000,
-         2px  2px 0 #000;
-    ">
-      <b>My last duty station @ Fort Wainwright Alaska</b>
-    </h2>
-  </marquee>
+
+
+
+
+<div class="scroll-banner">
+  <h1><b>My last duty station @ Fort Wainwright Alaska</b></h1>
+</div>
+
+<style>
+.scroll-banner {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: left;
+  margin: 20px 0;
+}
+
+.scroll-banner h1 {
+  display: inline-block;
+  margin: 0;
+  color: blue;
+  text-shadow: 0 0 8px rgba(255,255,255,0.7);
+  padding-left: 100%;
+  animation: scrollLeft 12s linear infinite;
+}
+
+@keyframes scrollLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+</style>
+
+
+
 </center>
 
   <div class="content">
