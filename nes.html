@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RaffTech Nintendo Deck</title>
+
+  <!-- UPDATED PATH -->
+  <link rel="stylesheet" href="nes/styles.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="ambient-glow glow-a"></div>
+    <div class="ambient-glow glow-b"></div>
+
+    <header class="topbar">
+      <div class="brandStack">
+        <div class="brandMain">RAFFTECH</div>
+        <div class="brandSub">Nintendo Browser Deck</div>
+      </div>
+
+      <div class="topActions">
+        <button id="deckPowerBtn" class="deck-btn" type="button">Power</button>
+        <button id="deckResetBtn" class="deck-btn" type="button">Reset</button>
+        <button id="pauseBtn" class="deck-btn" type="button">Pause</button>
+        <button id="demoBtn" class="deck-btn" type="button">Demo</button>
+        <button id="powerBtn" class="tiny-btn" type="button">Power</button>
+        <button id="muteBtn" class="tiny-btn" type="button">Mute</button>
+        <button id="fullscreenBtn" class="tiny-btn" type="button">Fullscreen</button>
+      </div>
+    </header>
+
+    <main id="scene">
+
+      <!-- TV SECTION -->
+      <section id="tvWall">
+        <div id="tvShell">
+          <div id="tvBezel">
+
+            <div id="tvHeader">
+              <div class="tvLabel">RAFFTECH TV</div>
+              <div class="tvStatusWrap">
+                <span class="led" id="powerLed"></span>
+                <span id="tvStatus">OFF</span>
+              </div>
+            </div>
+
+            <div id="tvScreenWrap">
+
+              <!-- UPDATED PATH -->
+              <img id="tvBackground" src="nes/images/desk.png" alt="">
+
+              <div id="tvScanlines"></div>
+              <div id="tvGlass"></div>
+
+              <div id="tvScreen">
+                <div id="screenMessage">
+                  Press <b>Power</b>, then load a <code>.nes</code> file and click <b>Insert</b>.
+                </div>
+
+                <div id="nesViewport">
+                  <canvas id="tvCanvas" width="256" height="240"></canvas>
+                </div>
+              </div>
+
+            </div>
+
+            <div id="tvFooter">
+              <div class="speakerGrid"></div>
+              <div class="speakerGrid"></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- CONSOLE AREA -->
+      <section id="consoleArea">
+
+        <!-- LEFT PANEL -->
+        <aside class="sidePanel">
+
+          <div class="panelCard">
+            <h2>Cartridge</h2>
+
+            <div id="cartridgePreview">
+              <div class="cartStickerPreview">
+                <img id="cartStickerImgPreview" alt="" />
+                <div id="cartStickerPlaceholderPreview">Generic Cartridge</div>
+              </div>
+              <div id="cartTitlePreview">NO CART</div>
+            </div>
+
+            <div class="buttonGrid">
+              <label class="action-btn">
+                Load Sticker
+                <input type="file" id="stickerInput" hidden />
+              </label>
+
+              <label class="action-btn">
+                Load ROM
+                <input type="file" id="romInput" accept=".nes" hidden />
+              </label>
+
+              <button id="insertBtn" class="action-btn" type="button">Insert</button>
+              <button id="ejectBtn" class="action-btn" type="button">Eject</button>
+            </div>
+
+            <div class="metaLines">
+              <div>Cartridge: <span id="cartLabel">None</span></div>
+              <div>Mode: <span id="modeLabel">Idle</span></div>
+              <div>Audio: <span id="audioLabel">Locked</span></div>
+            </div>
+          </div>
+
+          <div class="panelCard">
+            <h2>Controls</h2>
+            <div class="controlList">
+              <div>Arrows / WASD = D-Pad</div>
+              <div>Z = B</div>
+              <div>X = A</div>
+              <div>Enter = Start</div>
+              <div>Shift = Select</div>
+              <div>F5 = Save</div>
+              <div>F8 = Load</div>
+              <div>C = CRT Mode</div>
+            </div>
+          </div>
+
+        </aside>
+
+        <!-- CONSOLE BODY -->
+        <section id="consoleBody">
+
+          <!-- UPDATED PATH -->
+          <img id="consoleBackground" src="nes/images/table.png" alt="">
+
+          <div id="consoleTop">
+            <div id="nesConsoleVisual">
+
+              <!-- UPDATED PATH -->
+              <img id="nesConsoleImg" src="nes/images/nes_off.png" alt="NES console" />
+
+              <div id="consoleButtonLayer">
+                <button id="powerHotspot" class="consoleBtn" type="button"></button>
+                <button id="resetHotspot" class="consoleBtn" type="button"></button>
+              </div>
+
+              <div id="cartInsideWrap">
+                <div id="cartridge">
+                  <div id="cartSticker">
+                    <img id="cartStickerImg" alt="" />
+                    <div id="cartStickerPlaceholder">Generic Cartridge</div>
+                  </div>
+                  <div id="cartTitle">NO CART</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CONTROLLER -->
+          <div id="controllerDeck">
+            <div class="controllerSkin">
+
+              <!-- UPDATED PATH -->
+              <img src="nes/images/nes_controller.png" alt="NES Controller" class="controllerImage" />
+
+              <button class="padBtn dpad up" type="button" data-key="ArrowUp"></button>
+              <button class="padBtn dpad left" type="button" data-key="ArrowLeft"></button>
+              <button class="padBtn dpad right" type="button" data-key="ArrowRight"></button>
+              <button class="padBtn dpad down" type="button" data-key="ArrowDown"></button>
+
+              <button class="padBtn selectBtn" type="button" data-key="Shift"></button>
+              <button class="padBtn startBtn" type="button" data-key="Enter"></button>
+
+              <button class="padBtn bBtn" type="button" data-key="z"></button>
+              <button class="padBtn aBtn" type="button" data-key="x"></button>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- RIGHT PANEL -->
+        <aside class="sidePanel">
+          <div class="panelCard">
+            <h2>System</h2>
+            <div class="metaLines">
+              <div>State: <span id="stateLabel">Off</span></div>
+              <div>Renderer: <span id="rendererLabel"></span></div>
+              <div>TV: <span id="tvModeLabel"></span></div>
+              <div>Sound: <span id="soundStatus"></span></div>
+            </div>
+          </div>
+        </aside>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- NES EMULATOR -->
+  <script src="https://unpkg.com/jsnes@2/dist/jsnes.min.js"></script>
+
+  <!-- UPDATED PATH -->
+  <script src="nes/app.js"></script>
+
+</body>
+</html>
